@@ -1,1 +1,1 @@
-export { YourWebComponent } from './src/your-webcomponent';
+export { IaItemUserlists } from './src/ia-item-userlists';

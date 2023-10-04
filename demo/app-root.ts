@@ -1,20 +1,23 @@
 import { html, css, LitElement } from 'lit';
 import { customElement } from 'lit/decorators.js';
-import '../src/your-webcomponent';
+import '../src/ia-item-userlists';
 
 @customElement('app-root')
 export class AppRoot extends LitElement {
   render() {
     return html`
-      <your-webcomponent title="Hello">
-        <div slot="my-slot">Some slotted content</div>
-      </your-webcomponent>
+      <div>
+        <ia-item-userlists> fjsdklkl </ia-item-userlists>
+      </div>
     `;
   }
 
   static styles = css`
     :host {
       display: block;
+    }
+    div {
+      display: flex;
     }
   `;
 }
