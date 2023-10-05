@@ -7,7 +7,7 @@ export class AppRoot extends LitElement {
   render() {
     return html`
       <div>
-        <ia-item-userlists> fjsdklkl </ia-item-userlists>
+        <ia-item-userlists></ia-item-userlists>
       </div>
     `;
   }

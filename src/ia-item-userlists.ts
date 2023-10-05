@@ -139,16 +139,8 @@ export class IaItemUserlists extends LitElement {
     }
     div.list-title {
       font-weight: 600;
-      color: #222;
+      color: #2c2c2c;
     }
-
-    /*     .list-container {
-      padding: 10px 0 0 10px;
-      background-color: white;
-      height: auto;
-      width: 200px;
-    }
-*/
 
     ia-dropdown {
       --dropdownBgColor: #fff;
@@ -181,7 +173,6 @@ export class IaItemUserlists extends LitElement {
       --iconLabelFlexDirection: column;
       --iconLabelGutterWidth: 0;
       --iconWidth: 17.5px;
-      background-color: #fff;
     }
 
     /* inside button.click-main, classname from details.inc buttons */
@@ -198,7 +189,8 @@ export class IaItemUserlists extends LitElement {
 
     @media (max-width: 767px) {
       .action-bar-text {
-        padding: 2px 2px;
+        padding: 0px;
+        --dropdownMainButtonPadding: 3px 3px;
       }
 
       .action-bar-text .label {
