@@ -1,11 +1,6 @@
 /**
- *
- *
- *
- *
- *
+ * Button and dropdown for adding item to user lists
  */
-
 import {
   html,
   css,

@@ -21,6 +21,7 @@ import { property, customElement } from 'lit/decorators.js';
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 import type { IaIconLabel } from '@internetarchive/ia-dropdown';
 import type { userListDataInterface } from './item-user-lists-model';
+import { createNewList } from './create-new-list';
 
 interface userListOptionInterface {
   selectedHandler?: Function;
@@ -122,12 +123,15 @@ export class ItemUserlists extends LitElement {
         Create new list
       </ia-icon-label>`,
       id: 'create-new-list',
-      selectedHandler: (option: userListOptionInterface) =>
-        this.onSelected(option),
+      selectedHandler: () => this.createList(),
     };
     options.push(createNewListOption);
 
     return options;
+  }
+
+  private async createList(): Promise<void> {
+    await createNewList();
   }
 
   private onSelected(option: userListOptionInterface): void {

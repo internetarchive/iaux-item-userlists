@@ -10,10 +10,27 @@
     body {
       background: #fafafa;
     }
+
+    body.modal-manager-open {
+      overflow: hidden;
+    }
+
+    modal-manager {
+      display: none;
+      --modalTitleLineHeight: 4.5rem;
+      --modalHeaderBottomPadding: 0;
+      --modalWidth: 40rem;
+    }
+
+    modal-manager[mode='open'] {
+      display: block;
+    }
   </style>
 </head>
 <body>
   <app-root></app-root>
+  <modal-manager></modal-manager>
+  <test></test>
 
   <script type="module" src="../dist/demo/app-root.js">
   </script>
