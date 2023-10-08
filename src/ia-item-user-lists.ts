@@ -153,19 +153,13 @@ export class IaItemUserLists extends LitElement {
       --dropdownOffsetTop: 2px;
       --buttonSlotPaddingRight: 0;
       --dropdownMainButtonFlexDirection: column;
-      --dropdownMainButtonPadding: 5px 5px;
+      --dropdownMainButtonPadding: 4px 4px;
       --dropdownMainButtonHoverBgColor: rgba(44, 44, 44, 0.1);
       --dropdownMainButtonActiveBgColor: rgba(44, 44, 44, 0.3);
       --iconLabelGutterWidth: 0;
       --iconWidth: 17.5px;
       --dropdownMainButtonBorder: 2px solid #2c2c2c;
       --dropdownMainButtonBorderRadius: 3px;
-    }
-
-    ia-dropdown.slotted-caret {
-      --dropdownCaretColor: #222;
-      --caretPadding: 0 0 6px 5px;
-      --dropdownListPosition: relative;
     }
 
     .action-bar-text {
@@ -177,22 +171,12 @@ export class IaItemUserLists extends LitElement {
 
     /* inside button.click-main, classname from details.inc buttons */
     @media (min-width: 768px) {
-      .action-bar-text {
-        /* for long text, thin L/R padding */
-        padding: 2px 1px;
-      }
-
       .action-bar-text .label-sm {
         display: none;
       }
     }
 
     @media (max-width: 767px) {
-      .action-bar-text {
-        padding: 0px;
-        --dropdownMainButtonPadding: 3px 3px;
-      }
-
       .action-bar-text .label {
         display: none;
       }
