@@ -1,3 +1,21 @@
+// Get users lists
+export interface ItemListJSONValueInterface {
+  id: number;
+  list_name: string;
+  description: string;
+  is_private: boolean;
+  date_created: string;
+  date_updated: string;
+  item_is_member: boolean;
+  members?: any[];
+}
+
+export interface ItemListJSONInterface {
+  success: boolean;
+  value?: ItemListJSONValueInterface[];
+}
+
+// local test data
 export interface userListDataInterface {
   name: string;
   item_is_member: boolean;

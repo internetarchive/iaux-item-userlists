@@ -26,8 +26,21 @@ export async function createNewList(): Promise<void> {
         }}
         @listDetailsSaved=${(e: CustomEvent) => {
           // eslint-disable-next-line no-console
-          console.log(e.detail);
+          console.log(e.detail.outputData);
           modalManager.closeModal();
+          document.dispatchEvent(
+            new CustomEvent('closeDropdown', {
+              bubbles: true,
+              composed: true,
+            })
+          );
+          document.dispatchEvent(
+            new CustomEvent('createUserList', {
+              detail: { created: e.detail.outputData },
+              bubbles: true,
+              composed: true,
+            })
+          );
         }}
       ></iaux-userlist-settings>
     `,

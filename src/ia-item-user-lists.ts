@@ -44,12 +44,28 @@ export class IaItemUserLists extends LitElement {
     ).length;
 
     // Listen for select Dropdown event from item-userlists
-    const eventListener = (e: CustomEvent) => {
+    const selectEventListener = (e: CustomEvent) => {
       // Set selected count for main button icon state
       this.selectedCount = e.detail.selected as number;
     };
-    // eslint-disable-next-line no-undef
-    this.addEventListener('selectDropdown', eventListener as EventListener);
+    this.addEventListener(
+      'selectDropdown',
+      // eslint-disable-next-line no-undef
+      selectEventListener as EventListener
+    );
+
+    // Listen for create List event from creatae-new-list
+    const createEventListener = (e: CustomEvent) => {
+      // Set selected count for main button icon state
+      this.selectedCount += 1;
+      // eslint-disable-next-line no-console
+      console.log(e.detail.created);
+    };
+    this.addEventListener(
+      'selectDropdown',
+      // eslint-disable-next-line no-undef
+      createEventListener as EventListener
+    );
   }
 
   get checkIcon(): SVGTemplateResult {
