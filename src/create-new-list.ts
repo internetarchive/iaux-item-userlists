@@ -19,22 +19,27 @@ export async function createNewList(): Promise<void> {
     }),
     customModalContent: html`
       <iaux-userlist-settings
-        .userList=${{}}
+        .userList=${{
+          id: undefined,
+          list_name: '',
+          description: '',
+          is_private: false,
+        }}
         .baseAPIUrl=${createUserListsServiceUrl}
         @listModalClosed=${() => {
           modalManager.closeModal();
         }}
         @userListSaved=${(e: CustomEvent) => {
           // eslint-disable-next-line no-console
-          console.log(e.detail.outputData);
+          console.log('userListSaved', e.detail.outputData);
           modalManager.closeModal();
-          document.dispatchEvent(
+          window.dispatchEvent(
             new CustomEvent('closeDropdown', {
               bubbles: true,
               composed: true,
             })
           );
-          document.dispatchEvent(
+          window.dispatchEvent(
             new CustomEvent('createUserList', {
               detail: { created: e.detail.outputData },
               bubbles: true,

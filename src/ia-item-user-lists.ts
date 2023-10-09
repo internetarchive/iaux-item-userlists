@@ -59,10 +59,10 @@ export class IaItemUserLists extends LitElement {
       // Set selected count for main button icon state
       this.selectedCount += 1;
       // eslint-disable-next-line no-console
-      console.log(e.detail.created);
+      console.log('createUserList listender', e.detail.created);
     };
-    this.addEventListener(
-      'selectDropdown',
+    window.addEventListener(
+      'createUserList',
       // eslint-disable-next-line no-undef
       createEventListener as EventListener
     );
