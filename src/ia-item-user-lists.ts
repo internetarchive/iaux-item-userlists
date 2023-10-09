@@ -181,7 +181,8 @@ export class IaItemUserLists extends LitElement {
         display: none;
       }
       .action-bar-text .label {
-        --dropdownMainButtonPadding: 6px 4px;
+        padding-bottom: 2px;
+        padding-top: 2px;
       }
     }
 
