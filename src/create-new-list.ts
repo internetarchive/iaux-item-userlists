@@ -24,7 +24,7 @@ export async function createNewList(): Promise<void> {
         @listModalClosed=${() => {
           modalManager.closeModal();
         }}
-        @listDetailsSaved=${(e: CustomEvent) => {
+        @userListSaved=${(e: CustomEvent) => {
           // eslint-disable-next-line no-console
           console.log(e.detail.outputData);
           modalManager.closeModal();
