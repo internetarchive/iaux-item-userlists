@@ -180,6 +180,9 @@ export class IaItemUserLists extends LitElement {
       .action-bar-text .label-sm {
         display: none;
       }
+      .action-bar-text .label {
+        --dropdownMainButtonPadding: 6px 4px;
+      }
     }
 
     @media (max-width: 984px) {
