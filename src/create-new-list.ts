@@ -30,9 +30,6 @@ export async function createNewList(): Promise<void> {
           modalManager.closeModal();
         }}
         @userListSaved=${(e: CustomEvent) => {
-          // eslint-disable-next-line no-console
-          console.log('userListSaved', e.detail.outputData);
-          modalManager.closeModal();
           window.dispatchEvent(
             new CustomEvent('closeDropdown', {
               bubbles: true,
@@ -46,6 +43,7 @@ export async function createNewList(): Promise<void> {
               composed: true,
             })
           );
+          modalManager.closeModal();
         }}
       ></iaux-userlist-settings>
     `,

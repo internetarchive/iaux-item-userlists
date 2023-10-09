@@ -59,7 +59,7 @@ export class IaItemUserLists extends LitElement {
       // Set selected count for main button icon state
       this.selectedCount += 1;
       // eslint-disable-next-line no-console
-      console.log('createUserList listender', e.detail.created);
+      console.log('createUserList listener', e.detail.created.json());
     };
     window.addEventListener(
       'createUserList',
@@ -159,7 +159,7 @@ export class IaItemUserLists extends LitElement {
       --dropdownOffsetTop: 2px;
       --buttonSlotPaddingRight: 0;
       --dropdownMainButtonFlexDirection: column;
-      --dropdownMainButtonPadding: 4px 4px;
+      --dropdownMainButtonPadding: 6px 4px;
       --dropdownMainButtonHoverBgColor: rgba(44, 44, 44, 0.1);
       --dropdownMainButtonActiveBgColor: rgba(44, 44, 44, 0.3);
       --iconLabelGutterWidth: 0;
@@ -189,7 +189,8 @@ export class IaItemUserLists extends LitElement {
     @media (max-width: 984px) {
       .action-bar-text .label {
         display: none;
-        padding-bottom: 1px;
+        padding-top: 2px;
+        padding-bottom: 0px;
       }
     }
 
