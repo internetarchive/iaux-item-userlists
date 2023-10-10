@@ -22,7 +22,7 @@ import { property, customElement } from 'lit/decorators.js';
 import type { IaIconLabel } from '@internetarchive/ia-dropdown';
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 import type {
-  UserList,
+  /*  UserList, */
   UserListsServiceInterface,
 } from '@internetarchive/ia-userlist-settings';
 import type { userListDataInterface } from './item-user-lists-model';

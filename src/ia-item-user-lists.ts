@@ -16,8 +16,8 @@ import { IaDropdown, IaIconLabel } from '@internetarchive/ia-dropdown';
 import {
   UserListsService,
   UserListsServiceInterface,
-  UserList,
-  UserListMember,
+  /*  UserList,
+  UserListMember, */
 } from '@internetarchive/ia-userlist-settings';
 import { SearchService } from '@internetarchive/search-service';
 import { UserService } from '@internetarchive/user-service';
