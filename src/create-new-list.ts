@@ -4,7 +4,13 @@ import '@internetarchive/ia-userlist-settings';
 import { userListServiceUrl } from './user-lists-service-url';
 
 export async function createNewList(): Promise<void> {
-  const modalManager = document.querySelector('modal-manager') as ModalManager;
+  let modalManager = document.querySelector('modal-manager') as ModalManager;
+  if (!modalManager) {
+    const body = document.querySelector('body');
+    modalManager = document.createElement('modal-manager') as ModalManager;
+    body?.appendChild(modalManager);
+  }
+
   modalManager?.setAttribute('id', 'create-user-list-modal');
 
   const createUserListsServiceUrl = `${userListServiceUrl}/me/lists`;
