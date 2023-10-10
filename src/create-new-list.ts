@@ -1,9 +1,14 @@
 import { html } from 'lit';
 import { ModalConfig, ModalManager } from '@internetarchive/modal-manager';
 import '@internetarchive/ia-userlist-settings';
-import { userListServiceUrl } from './user-lists-service-url';
+import type {
+  UserList,
+  UserListsServiceInterface,
+} from '@internetarchive/ia-userlist-settings';
 
-export async function createNewList(): Promise<void> {
+export async function createNewList(
+  service?: UserListsServiceInterface
+): Promise<void> {
   let modalManager = document.querySelector('modal-manager') as ModalManager;
   if (!modalManager) {
     const body = document.querySelector('body');
@@ -12,8 +17,6 @@ export async function createNewList(): Promise<void> {
   }
 
   modalManager?.setAttribute('id', 'create-user-list-modal');
-
-  const createUserListsServiceUrl = `${userListServiceUrl}/me/lists`;
 
   modalManager.showModal({
     config: new ModalConfig({
@@ -31,12 +34,12 @@ export async function createNewList(): Promise<void> {
           description: '',
           is_private: false,
         }}
-        .baseAPIUrl=${createUserListsServiceUrl}
+        .userListsService=${service}
         @listModalClosed=${() => {
           modalManager.closeModal();
         }}
-        @userListSaved=${async (e: CustomEvent) => {
-          const data = await e.detail.outputData.json();
+        @userListSaved=${async (e: CustomEvent<UserList>) => {
+          const data = e.detail;
 
           window.dispatchEvent(
             new CustomEvent('createUserList', {

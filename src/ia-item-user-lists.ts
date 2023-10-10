@@ -12,6 +12,17 @@ import {
 import { property, customElement, state } from 'lit/decorators.js';
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 import { IaDropdown, IaIconLabel } from '@internetarchive/ia-dropdown';
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
+import {
+  UserListsService,
+  UserListsServiceInterface,
+  UserList,
+  UserListMember,
+} from '@internetarchive/ia-userlist-settings';
+import { SearchService } from '@internetarchive/search-service';
+import { UserService } from '@internetarchive/user-service';
+import { FetchHandler } from './fetch-handler';
+import { userListServiceUrl } from './user-lists-service-url';
 import {
   userListDataInterface,
   userListTestData,
@@ -30,6 +41,14 @@ export class IaItemUserLists extends LitElement {
 
   // Data for userlist dropdown
   @state() private userListData: userListDataInterface[] = [];
+
+  @state() private userListsService: UserListsServiceInterface =
+    new UserListsService({
+      fetchHandler: new FetchHandler(),
+      searchService: SearchService.default,
+      userService: new UserService(),
+      baseUrl: userListServiceUrl,
+    });
 
   constructor() {
     super();
@@ -115,7 +134,12 @@ export class IaItemUserLists extends LitElement {
 
   get itemUserlists(): TemplateResult {
     return html`
-      <item-userlists slot="list" .lists=${this.userListData}></item-userlists>
+      <item-userlists
+        slot="list"
+        .lists=${this.userListData}
+        .userListsService=${this.userListsService}
+      >
+      </item-userlists>
     `;
   }
 

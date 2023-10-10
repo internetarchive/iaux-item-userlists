@@ -20,6 +20,11 @@ import {
 import { property, customElement } from 'lit/decorators.js';
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 import type { IaIconLabel } from '@internetarchive/ia-dropdown';
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
+import type {
+  UserList,
+  UserListsServiceInterface,
+} from '@internetarchive/ia-userlist-settings';
 import type { userListDataInterface } from './item-user-lists-model';
 import { createNewList } from './create-new-list';
 
@@ -45,6 +50,11 @@ export class ItemUserlists extends LitElement {
    * List of item userlists
    */
   @property({ type: Array }) lists: userListDataInterface[] = [];
+
+  /**
+   * User lists service
+   */
+  @property({ type: Object }) userListsService?: UserListsServiceInterface;
 
   get checkIcon(): SVGTemplateResult {
     return svg`<svg viewBox="0 0 100 100"
@@ -131,7 +141,7 @@ export class ItemUserlists extends LitElement {
   }
 
   private async createList(): Promise<void> {
-    await createNewList();
+    await createNewList(this.userListsService);
   }
 
   private onSelected(option: userListOptionInterface): void {
