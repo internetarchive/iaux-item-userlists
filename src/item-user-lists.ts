@@ -27,10 +27,6 @@ import type {
 } from '@internetarchive/ia-userlist-settings';
 import { createNewList } from './create-new-list';
 
-interface UserListInterface extends UserList {
-  item_is_member?: boolean;
-}
-
 interface userListOptionInterface {
   selectedHandler?: Function;
   label: string | TemplateResult;
@@ -47,12 +43,12 @@ export class ItemUserlists extends LitElement {
   /**
    * Item identifier
    */
-  @property({ type: String }) identifier = 'Flash';
+  @property({ type: String }) identifier = '';
 
   /**
    * List of item userlists
    */
-  @property({ type: Array }) lists: UserListInterface[] = [];
+  @property({ type: Array }) lists: UserList[] = [];
 
   /**
    * User lists service
@@ -147,6 +143,7 @@ export class ItemUserlists extends LitElement {
     await createNewList(this.userListsService);
   }
 
+  // TODO: call API to add remove member item from list
   private onSelected(option: userListOptionInterface): void {
     let selectedCount = 0;
     /* above disable no-param-reassign */

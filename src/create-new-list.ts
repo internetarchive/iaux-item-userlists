@@ -47,6 +47,13 @@ export async function createNewList(
             })
           );
 
+          window.dispatchEvent(
+            new CustomEvent('closeDropdown', {
+              bubbles: true,
+              composed: true,
+            })
+          );
+
           modalManager.closeModal();
         }}
       ></iaux-userlist-settings>

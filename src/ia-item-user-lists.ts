@@ -25,10 +25,6 @@ import { FetchHandler } from './fetch-handler';
 import { userListServiceUrl } from './user-lists-service-url';
 import './item-user-lists';
 
-interface UserListInterface extends UserList {
-  item_is_member?: boolean;
-}
-
 @customElement('ia-item-user-lists')
 export class IaItemUserLists extends LitElement {
   /**
@@ -40,7 +36,7 @@ export class IaItemUserLists extends LitElement {
   @state() private selectedCount: number = 0;
 
   // Data for userlist dropdown
-  @state() private userListData: UserListInterface[] = [];
+  @state() private userListData: UserList[] = [];
 
   @state() private userListsService: UserListsServiceInterface =
     new UserListsService({
@@ -67,12 +63,15 @@ export class IaItemUserLists extends LitElement {
       selectEventListener as EventListener
     );
 
-    // Listen for create List event from creatae-new-list
+    // Listen for create List event from create-new-list
     const createEventListener = (e: CustomEvent) => {
       // Set selected count for main button icon state
       this.selectedCount += 1;
       // eslint-disable-next-line no-console
       console.log('createUserList listener', e.detail.created);
+
+      this.userListData = [...this.userListData, e.detail.created];
+
       this.dispatchEvent(
         new CustomEvent('closeDropdown', {
           bubbles: true,
@@ -148,6 +147,7 @@ export class IaItemUserLists extends LitElement {
     return html`
       <item-userlists
         slot="list"
+        .identifier=${this.item}
         .lists=${this.userListData}
         .userListsService=${this.userListsService}
       >
