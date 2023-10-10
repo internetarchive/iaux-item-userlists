@@ -22,11 +22,14 @@ import { property, customElement } from 'lit/decorators.js';
 import type { IaIconLabel } from '@internetarchive/ia-dropdown';
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 import type {
-  /*  UserList, */
+  UserList,
   UserListsServiceInterface,
 } from '@internetarchive/ia-userlist-settings';
-import type { userListDataInterface } from './item-user-lists-model';
 import { createNewList } from './create-new-list';
+
+interface UserListInterface extends UserList {
+  item_is_member?: boolean;
+}
 
 interface userListOptionInterface {
   selectedHandler?: Function;
@@ -49,7 +52,7 @@ export class ItemUserlists extends LitElement {
   /**
    * List of item userlists
    */
-  @property({ type: Array }) lists: userListDataInterface[] = [];
+  @property({ type: Array }) lists: UserListInterface[] = [];
 
   /**
    * User lists service
@@ -117,8 +120,8 @@ export class ItemUserlists extends LitElement {
     this.lists.forEach(list => {
       const listOption = {
         label: html` <ia-icon-label>
-          <div slot="icon">${this.checkedIcon(list.item_is_member)}</div>
-          <div class="truncate">${list.name}</div>
+          <div slot="icon">${this.checkedIcon(!!list.item_is_member)}</div>
+          <div class="truncate">${list.list_name}</div>
         </ia-icon-label>`,
         id: list.id,
         selectedHandler: (option: userListOptionInterface) =>
@@ -226,6 +229,7 @@ export class ItemUserlists extends LitElement {
         height: 30px;
         box-sizing: border-box;
         text-align: left;
+        line-height: initial;
       }
 
       /* color opacity calculator: https://codepen.io/quyenvsp/pen/jOLBBmX

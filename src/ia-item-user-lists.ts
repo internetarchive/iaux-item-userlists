@@ -16,18 +16,18 @@ import { IaDropdown, IaIconLabel } from '@internetarchive/ia-dropdown';
 import {
   UserListsService,
   UserListsServiceInterface,
-  /*  UserList,
-  UserListMember, */
+  UserList,
+  /* UserListMember, */
 } from '@internetarchive/ia-userlist-settings';
 import { SearchService } from '@internetarchive/search-service';
 import { UserService } from '@internetarchive/user-service';
 import { FetchHandler } from './fetch-handler';
 import { userListServiceUrl } from './user-lists-service-url';
-import {
-  userListDataInterface,
-  userListTestData,
-} from './item-user-lists-model';
 import './item-user-lists';
+
+interface UserListInterface extends UserList {
+  item_is_member?: boolean;
+}
 
 @customElement('ia-item-user-lists')
 export class IaItemUserLists extends LitElement {
@@ -40,7 +40,7 @@ export class IaItemUserLists extends LitElement {
   @state() private selectedCount: number = 0;
 
   // Data for userlist dropdown
-  @state() private userListData: userListDataInterface[] = [];
+  @state() private userListData: UserListInterface[] = [];
 
   @state() private userListsService: UserListsServiceInterface =
     new UserListsService({
@@ -52,15 +52,9 @@ export class IaItemUserLists extends LitElement {
 
   constructor() {
     super();
-    // Copy sample userlist data
-    this.userListData = [...userListTestData];
 
-    // TODO: load userlist data from API
-
-    // Initialize selected count for main button icon state
-    this.selectedCount = this.userListData.filter(
-      item => item.item_is_member
-    ).length;
+    // Set userlist data
+    this.initUserLists();
 
     // Listen for select Dropdown event from item-userlists
     const selectEventListener = (e: CustomEvent) => {
@@ -91,6 +85,24 @@ export class IaItemUserLists extends LitElement {
       // eslint-disable-next-line no-undef
       createEventListener as EventListener
     );
+  }
+
+  private async initUserLists(): Promise<void> {
+    // Load userlist data from API
+    const result = await this.userListsService.fetchOwnListsContainingItem(
+      this.item
+    );
+    if (result.success) {
+      this.userListData = result.success;
+
+      // Initialize selected count for main button icon state
+      this.selectedCount = this.userListData.filter(
+        item => !!item.item_is_member
+      ).length;
+    } else {
+      // eslint-disable-next-line no-console
+      console.error('Error loading userlist data', result.error);
+    }
   }
 
   get checkIcon(): SVGTemplateResult {

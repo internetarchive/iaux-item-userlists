@@ -39,11 +39,9 @@ export async function createNewList(
           modalManager.closeModal();
         }}
         @userListSaved=${async (e: CustomEvent<UserList>) => {
-          const data = e.detail;
-
           window.dispatchEvent(
             new CustomEvent('createUserList', {
-              detail: { created: data },
+              detail: { created: e.detail },
               bubbles: true,
               composed: true,
             })
