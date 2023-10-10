@@ -143,6 +143,14 @@ export class ItemUserlists extends LitElement {
     await createNewList(this.userListsService);
   }
 
+  /*   private async addMember(listId: string): Promise<void> {
+    await this.userListsService.addMemberToList(listId, {identifier: this.item});
+  }
+
+  private async removeMember(listId: string): Promise<void> {
+    await this.userListsService.removeMemberFromList(listId, {identifier: this.item});
+  } */
+
   // TODO: call API to add remove member item from list
   private onSelected(option: userListOptionInterface): void {
     let selectedCount = 0;
@@ -150,6 +158,12 @@ export class ItemUserlists extends LitElement {
     this.lists = this.lists.map(list => {
       if (list.id === option.id) {
         list.item_is_member = !list.item_is_member;
+
+        if (list.item_is_member) {
+          //  this.addMember(list.id);
+        } else {
+          //  this.removeMember(list.id);
+        }
       }
       if (list.item_is_member) {
         selectedCount += 1;

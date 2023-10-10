@@ -56,6 +56,7 @@ export class IaItemUserLists extends LitElement {
     const selectEventListener = (e: CustomEvent) => {
       // Set selected count for main button icon state
       this.selectedCount = e.detail.selected as number;
+      this.initUserLists();
     };
     this.addEventListener(
       'selectDropdown',
@@ -65,12 +66,13 @@ export class IaItemUserLists extends LitElement {
 
     // Listen for create List event from create-new-list
     const createEventListener = (e: CustomEvent) => {
-      // Set selected count for main button icon state
+      // TEMP: Set selected count for main button icon state
       this.selectedCount += 1;
+
       // eslint-disable-next-line no-console
       console.log('createUserList listener', e.detail.created);
 
-      this.userListData = [...this.userListData, e.detail.created];
+      this.addMember(e.detail.created.id);
 
       this.dispatchEvent(
         new CustomEvent('closeDropdown', {
@@ -84,6 +86,13 @@ export class IaItemUserLists extends LitElement {
       // eslint-disable-next-line no-undef
       createEventListener as EventListener
     );
+  }
+
+  private async addMember(listId: string): Promise<void> {
+    await this.userListsService.addMemberToList(listId, {
+      identifier: this.item,
+    });
+    await this.initUserLists();
   }
 
   private async initUserLists(): Promise<void> {
