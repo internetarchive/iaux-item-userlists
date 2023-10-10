@@ -189,6 +189,16 @@
   resolved "https://registry.npmjs.org/@humanwhocodes/object-schema/-/object-schema-1.2.1.tgz"
   integrity sha512-ZnQMnLV4e7hDlUvw8H+U8ASL02SS2Gn6+9Ac3wGGLIe7+je2AeAOxPY+izIPJDfFDb7eDjev0Us8MO1iFRN8hA==
 
+"@internetarchive/field-parsers@^0.1.0":
+  version "0.1.3"
+  resolved "https://registry.yarnpkg.com/@internetarchive/field-parsers/-/field-parsers-0.1.3.tgz#c73f4a0cf9d03b64ab34cbcd4ccb8f9eb98c8021"
+  integrity sha512-gN7ivwHWlf8V7fD3VakQ4NtddSou5i3A3TqbIo8EKF+XTxJXaXpNBmzkZEGf2oMVK8rHvrabFxZKVEy9qG7Omw==
+
+"@internetarchive/field-parsers@^0.1.4":
+  version "0.1.4"
+  resolved "https://registry.yarnpkg.com/@internetarchive/field-parsers/-/field-parsers-0.1.4.tgz#560343693245a5af893de522cc5581e7fbb9ccad"
+  integrity sha512-J5nhMsIU91eXnfoApa6SE0PffPbwK1Cd3YTLX/HjgayzMbXVkQvfebfVKSaoPmzHRRttbtY3Sg9FjviCwBq6qg==
+
 "@internetarchive/ia-activity-indicator@^0.0.4":
   version "0.0.4"
   resolved "https://registry.npmjs.org/@internetarchive/ia-activity-indicator/-/ia-activity-indicator-0.0.4.tgz"
@@ -203,12 +213,15 @@
   dependencies:
     lit "^2.8.0"
 
-"@internetarchive/ia-userlist-settings@^1.0.4":
-  version "1.0.4"
-  resolved "https://registry.npmjs.org/@internetarchive/ia-userlist-settings/-/ia-userlist-settings-1.0.4.tgz"
-  integrity sha512-lnAcCpvVd8zUZ6JqfMdk8oCvgqgIOnmK65nSdC+djbTO8XVoYpSxiSP69tMOxuIcHuYYtLYSfxchvBJj6vkE0A==
+"@internetarchive/ia-userlist-settings@^1.0.5-alpha.1":
+  version "1.0.5-alpha.1"
+  resolved "https://registry.yarnpkg.com/@internetarchive/ia-userlist-settings/-/ia-userlist-settings-1.0.5-alpha.1.tgz#b5b17ddb5218832756bdf1c89fcb87405f0ce77d"
+  integrity sha512-S+5VtXUt7y+vZHYqstF1QsxevPokD3p472B527PcFgJrn6QrfzLddhTp/uNG0t+L8PMQveDLxLVunpJRGEHjcw==
   dependencies:
     "@internetarchive/modal-manager" "^0.2.12"
+    "@internetarchive/result-type" "^0.0.1"
+    "@internetarchive/search-service" "^1.2.3"
+    "@internetarchive/user-service" "^0.1.3"
     lit "^2.6.0"
     lit-element "^3.3.3"
 
@@ -244,6 +257,30 @@
     "@internetarchive/icon-user" "^1.3.2"
     lit "^2.2.2"
     throttle-debounce "^5.0.0"
+
+"@internetarchive/result-type@^0.0.1":
+  version "0.0.1"
+  resolved "https://registry.yarnpkg.com/@internetarchive/result-type/-/result-type-0.0.1.tgz#a1bda4428dc557cc644a67783f1b8d5944ae4d54"
+  integrity sha512-sWahff5oP1xAK1CwAu1/5GTG2RXsdx/sQKn4SSOWH0r0vU2QoX9kAom/jSXeBsmgK0IjTc+9Ty9407SMORi+nQ==
+
+"@internetarchive/search-service@^1.2.3":
+  version "1.2.3"
+  resolved "https://registry.yarnpkg.com/@internetarchive/search-service/-/search-service-1.2.3.tgz#0a7f38730f3fe8747b4076eef26ddf0e6b3f4d8e"
+  integrity sha512-Yfn+MGWC8Qr1KqlwoJ6oowYnzFXIr7UCyurP+kXTCYzW4pkcC30synGbGUznyuXkSh5FwZMYkH9+UvYHtgHd2Q==
+  dependencies:
+    "@internetarchive/field-parsers" "^0.1.4"
+    "@internetarchive/result-type" "^0.0.1"
+    decorator-cache-getter "^1.0.0"
+    typescript-memoize "^1.1.0"
+
+"@internetarchive/user-service@^0.1.3":
+  version "0.1.3"
+  resolved "https://registry.yarnpkg.com/@internetarchive/user-service/-/user-service-0.1.3.tgz#12b178291a03e9d415d6662506adffeb41281c30"
+  integrity sha512-usYHTlbaBV46lPgJQd9wPOMsy3xye1AiCfygG4h5rZUbiKmSLZl3FFEUffnIcb7EUu/WsHvVoW1pbXscIpsXuw==
+  dependencies:
+    "@internetarchive/field-parsers" "^0.1.0"
+    "@internetarchive/result-type" "^0.0.1"
+    cookiejs "^2.0.2"
 
 "@isaacs/cliui@^8.0.2":
   version "8.0.2"
@@ -1863,6 +1900,11 @@ convert-source-map@^2.0.0:
   resolved "https://registry.npmjs.org/convert-source-map/-/convert-source-map-2.0.0.tgz"
   integrity sha512-Kvp459HrV2FEJ1CAsi1Ku+MY3kasH19TFykTz2xWmMeq6bk2NU3XXvfJ+Q61m0xktWwt+1HSYf3JZsTms3aRJg==
 
+cookiejs@^2.0.2:
+  version "2.1.2"
+  resolved "https://registry.yarnpkg.com/cookiejs/-/cookiejs-2.1.2.tgz#51af70368e22064321b3b91159517d5bf6bef189"
+  integrity sha512-FXsQ2Ub/bTjlt2aXiJsiT33g6iEXdYTIKabJa9Jn5CZjOyzszJjOGKWyqs+silY+xYmA9eiif2vGAxv2pJndcg==
+
 cookies@~0.8.0:
   version "0.8.0"
   resolved "https://registry.npmjs.org/cookies/-/cookies-0.8.0.tgz"
@@ -1937,6 +1979,11 @@ decode-uri-component@^0.2.0:
   version "0.2.2"
   resolved "https://registry.npmjs.org/decode-uri-component/-/decode-uri-component-0.2.2.tgz"
   integrity sha512-FqUYQ+8o158GyGTrMFJms9qh3CqTKvAqgqsTnkLI8sKu0028orqBhxNMFkFen0zGyg6epACD32pjVk58ngIErQ==
+
+decorator-cache-getter@^1.0.0:
+  version "1.0.0"
+  resolved "https://registry.yarnpkg.com/decorator-cache-getter/-/decorator-cache-getter-1.0.0.tgz#ef2549229dfb8301f4f231a2457b7503567f48c4"
+  integrity sha512-yB49c5qi0govRjpe18vutEkkKzosIt2XggYSs1Qyev1TJYTh2WmLgDp0dV6VJ/6yNBRlKG+qMG80Vy4Bg0mLJw==
 
 deep-equal@^2.0.5:
   version "2.1.0"
@@ -5894,6 +5941,11 @@ type-is@^1.6.16:
   dependencies:
     media-typer "0.3.0"
     mime-types "~2.1.24"
+
+typescript-memoize@^1.1.0:
+  version "1.1.1"
+  resolved "https://registry.yarnpkg.com/typescript-memoize/-/typescript-memoize-1.1.1.tgz#02737495d5df6ebf72c07ba0d002e8f4cf5ccfa0"
+  integrity sha512-GQ90TcKpIH4XxYTI2F98yEQYZgjNMOGPpOgdjIBhaLaWji5HPWlRnZ4AeA1hfBxtY7bCGDJsqDDHk/KaHOl5bA==
 
 typescript@^3.8.3, typescript@^3.9.10, typescript@^3.9.5, typescript@^3.9.7:
   version "3.9.10"
