@@ -29,20 +29,17 @@ export async function createNewList(): Promise<void> {
         @listModalClosed=${() => {
           modalManager.closeModal();
         }}
-        @userListSaved=${(e: CustomEvent) => {
-          window.dispatchEvent(
-            new CustomEvent('closeDropdown', {
-              bubbles: true,
-              composed: true,
-            })
-          );
+        @userListSaved=${async (e: CustomEvent) => {
+          const data = await e.detail.outputData.json();
+
           window.dispatchEvent(
             new CustomEvent('createUserList', {
-              detail: { created: e.detail.outputData },
+              detail: { created: data },
               bubbles: true,
               composed: true,
             })
           );
+
           modalManager.closeModal();
         }}
       ></iaux-userlist-settings>
