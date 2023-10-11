@@ -8,7 +8,7 @@ import type {
 
 export async function createNewList(
   service?: UserListsServiceInterface,
-  closeDropdown?: Function
+  closeDropdown?: Function<void>
 ): Promise<void> {
   let modalManager = document.querySelector('modal-manager') as ModalManager;
   if (!modalManager) {
