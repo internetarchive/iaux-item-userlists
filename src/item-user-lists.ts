@@ -102,7 +102,7 @@ export class ItemUserlists extends LitElement {
     option.selectedHandler?.(option);
   }
 
-  private checkedIcon(checked: boolean): TemplateResult {
+  private checkedIcon(checked?: boolean): TemplateResult {
     if (checked) {
       return html`${this.checkIcon}`;
     }
@@ -116,10 +116,11 @@ export class ItemUserlists extends LitElement {
     this.lists.forEach(list => {
       const listOption = {
         label: html` <ia-icon-label>
-          <div slot="icon">${this.checkedIcon(list?.item_is_member)}</div>
+          <div slot="icon">${this.checkedIcon(list.item_is_member)}</div>
           <div class="truncate">${list.list_name}</div>
         </ia-icon-label>`,
         id: list.id,
+        isSelected: list.item_is_member,
         selectedHandler: (option: userListOptionInterface) =>
           this.onSelected(option),
       } as userListOptionInterface;
@@ -140,7 +141,7 @@ export class ItemUserlists extends LitElement {
   }
 
   private async createList(): Promise<void> {
-    await createNewList(this.userListsService, this.closeDropdown());
+    await createNewList(this.userListsService, () => this.closeDropdown());
   }
 
   private async addMember(listId: string): Promise<void> {
