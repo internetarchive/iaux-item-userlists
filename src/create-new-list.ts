@@ -38,7 +38,7 @@ export async function createNewList(
         @listModalClosed=${() => {
           modalManager.showModal({
             config: new ModalConfig(),
-            customModalContent: undefined
+            customModalContent: undefined,
           });
           modalManager.closeModal();
         }}
@@ -60,7 +60,7 @@ export async function createNewList(
 
           modalManager.showModal({
             config: new ModalConfig(),
-            customModalContent: undefined
+            customModalContent: undefined,
           });
           modalManager.closeModal();
         }}
