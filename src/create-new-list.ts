@@ -36,6 +36,10 @@ export async function createNewList(
         }}
         .userListsService=${service}
         @listModalClosed=${() => {
+          modalManager.showModal({
+            config: new ModalConfig(),
+            customModalContent: undefined
+          });
           modalManager.closeModal();
         }}
         @userListSaved=${async (e: CustomEvent<UserList>) => {
@@ -54,6 +58,10 @@ export async function createNewList(
             })
           );
 
+          modalManager.showModal({
+            config: new ModalConfig(),
+            customModalContent: undefined
+          });
           modalManager.closeModal();
         }}
       ></iaux-userlist-settings>
