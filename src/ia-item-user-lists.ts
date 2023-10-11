@@ -49,9 +49,6 @@ export class IaItemUserLists extends LitElement {
   constructor() {
     super();
 
-    // Set userlist data
-    this.initUserLists();
-
     // Listen for select Dropdown event from item-userlists
     const selectEventListener = (e: CustomEvent) => {
       // Set selected count for main button icon state
@@ -86,6 +83,14 @@ export class IaItemUserLists extends LitElement {
       // eslint-disable-next-line no-undef
       createEventListener as EventListener
     );
+  }
+
+  connectedCallback(): void {
+    if (super.connectedCallback) {
+      super.connectedCallback();
+    }
+    // Set userlist data
+    this.initUserLists();
   }
 
   private async addMember(listId: string): Promise<void> {
