@@ -97,6 +97,8 @@ export class IaItemUserLists extends LitElement {
 
   private async initUserLists(): Promise<void> {
     // Load userlist data from API
+    // eslint-disable-next-line no-console
+    console.log('fetching userlist data for item', this.item);
     const result = await this.userListsService.fetchOwnListsContainingItem(
       this.item
     );
