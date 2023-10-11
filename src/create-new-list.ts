@@ -7,7 +7,8 @@ import type {
 } from '@internetarchive/ia-userlist-settings';
 
 export async function createNewList(
-  service?: UserListsServiceInterface
+  service?: UserListsServiceInterface,
+  closeDropdown?: Function
 ): Promise<void> {
   let modalManager = document.querySelector('modal-manager') as ModalManager;
   if (!modalManager) {
@@ -50,19 +51,14 @@ export async function createNewList(
               composed: true,
             })
           );
-
-          window.dispatchEvent(
-            new CustomEvent('closeDropdown', {
-              bubbles: true,
-              composed: true,
-            })
-          );
-
+          // Clear modal content
           modalManager.showModal({
             config: new ModalConfig(),
             customModalContent: undefined,
           });
           modalManager.closeModal();
+
+          closeDropdown?.();
         }}
       ></iaux-userlist-settings>
     `,

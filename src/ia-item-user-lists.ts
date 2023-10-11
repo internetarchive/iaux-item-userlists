@@ -105,8 +105,9 @@ export class IaItemUserLists extends LitElement {
 
       // Initialize selected count for main button icon state
       this.selectedCount = this.userListData.filter(
-        item => !!item.item_is_member
+        item => item.item_is_member
       ).length;
+      // this.update();
     } else {
       // eslint-disable-next-line no-console
       console.error('Error loading userlist data', result.error);
