@@ -43,7 +43,7 @@ export class ItemUserlists extends LitElement {
   /**
    * Item identifier
    */
-  @property({ type: String }) identifier = '';
+  @property({ type: String }) item = '';
 
   /**
    * List of item userlists
@@ -143,10 +143,13 @@ export class ItemUserlists extends LitElement {
     await createNewList(this.userListsService);
   }
 
-  /*   private async addMember(listId: string): Promise<void> {
-    await this.userListsService.addMemberToList(listId, {identifier: this.item});
+  private async addMember(listId: string): Promise<void> {
+    await this.userListsService?.addMemberToList(listId, {
+      identifier: this.item,
+    });
   }
 
+  /*
   private async removeMember(listId: string): Promise<void> {
     await this.userListsService.removeMemberFromList(listId, {identifier: this.item});
   } */
@@ -160,7 +163,7 @@ export class ItemUserlists extends LitElement {
         list.item_is_member = !list.item_is_member;
 
         if (list.item_is_member) {
-          //  this.addMember(list.id);
+          this.addMember(list.id);
         } else {
           //  this.removeMember(list.id);
         }
