@@ -179,7 +179,9 @@ export class IaItemUserLists extends LitElement {
   }
 
   get backdropTemplate(): TemplateResult | typeof nothing {
-    if (!this.backdropVisible) return nothing;
+    // const visibleBackdrop = !this.backdropVisible;
+    const visibleBackdrop = true;
+    if (visibleBackdrop) return nothing;
     return html`
       <div
         class="click-backdrop"
