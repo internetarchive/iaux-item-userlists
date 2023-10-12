@@ -8,10 +8,11 @@ import {
   svg,
   SVGTemplateResult,
   TemplateResult,
+  nothing,
 } from 'lit';
-import { property, customElement, state } from 'lit/decorators.js';
+import { property, customElement, state, query } from 'lit/decorators.js';
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
-import { IaDropdown, IaIconLabel } from '@internetarchive/ia-dropdown';
+import type { IaDropdown } from '@internetarchive/ia-dropdown';
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 import {
   UserListsService,
@@ -38,6 +39,8 @@ export class IaItemUserLists extends LitElement {
   // Data for userlist dropdown
   @state() private userListData: UserList[] = [];
 
+  @state() private backdropVisible: boolean = false;
+
   @state() private userListsService: UserListsServiceInterface =
     new UserListsService({
       fetchHandler: new FetchHandler(),
@@ -45,6 +48,8 @@ export class IaItemUserLists extends LitElement {
       userService: new UserService(),
       baseUrl: userListServiceUrl,
     });
+
+  @query('ia-dropdown') private dropdown!: IaDropdown;
 
   constructor() {
     super();
@@ -172,6 +177,26 @@ export class IaItemUserLists extends LitElement {
     `;
   }
 
+  get backdropTemplate(): TemplateResult | typeof nothing {
+    if (!this.backdropVisible) return nothing;
+    return html`
+      <div
+        class="click-backdrop"
+        @click=${this.backdropClicked}
+        @keypress=${this.backdropClicked}
+      ></div>
+    `;
+  }
+
+  backdropClicked(): void {
+    this.dropdown.open = false;
+    this.backdropVisible = false;
+  }
+
+  dropdownClicked(): void {
+    this.backdropVisible = this.dropdown.open;
+  }
+
   render() {
     return html`
       <div class="list-container">
@@ -182,10 +207,12 @@ export class IaItemUserLists extends LitElement {
           ?includeSelectedOption=${true}
           ?isCustomList=${true}
           ?closeOnEscape=${true}
+          @click=${this.dropdownClicked}
         >
           <div class="list-title" slot="dropdown-label">${this.mainButton}</div>
           ${this.itemUserlists}
         </ia-dropdown>
+        ${this.backdropTemplate}
       </div>
     `;
   }
@@ -251,6 +278,16 @@ export class IaItemUserLists extends LitElement {
         padding-top: 2px;
         padding-bottom: 0px;
       }
+    }
+
+    .click-backdrop {
+      position: fixed;
+      top: 0px;
+      left: 0px;
+      width: 100vw;
+      height: 100vh;
+      z-index: 1;
+      background-color: transparent;
     }
 
     svg {
