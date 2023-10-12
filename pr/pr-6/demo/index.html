@@ -1,0 +1,38 @@
+<!doctype html>
+<html lang="en-GB">
+<head>
+  <meta charset="utf-8">
+  <style>
+    html {
+      font-size: 10px; /* This is to match petabox's base font size */
+    }
+
+    body {
+      background: #fafafa;
+    }
+
+    body.modal-manager-open {
+      overflow: hidden;
+    }
+
+    modal-manager#create-user-list-modal {
+      display: none;
+      --modalTitleLineHeight: 4.5rem;
+      --modalHeaderBottomPadding: 0;
+      --modalWidth: 40rem;
+    }
+
+    modal-manager#create-user-list-modal[mode='open'] {
+      display: block;
+    }
+  </style>
+  <script type="module" crossorigin src="./app-root.js"></script>
+</head>
+<body>
+  <app-root></app-root>
+  <modal-manager id="create-user-list-modal"></modal-manager>
+  <test></test>
+
+  
+</body>
+</html>
