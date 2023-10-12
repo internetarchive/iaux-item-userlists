@@ -24,6 +24,7 @@ import { SearchService } from '@internetarchive/search-service';
 import { UserService } from '@internetarchive/user-service';
 import { FetchHandler } from './fetch-handler';
 import { userListServiceUrl } from './user-lists-service-url';
+import '@internetarchive/ia-dropdown';
 import './item-user-lists';
 
 @customElement('ia-item-user-lists')
