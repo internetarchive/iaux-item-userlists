@@ -213,7 +213,7 @@ export class IaItemUserLists extends LitElement {
       --dropdownBgColor: #fff;
       --dropdownItemPaddingRight: 0;
       --dropdownItemPaddingLeft: 2px;
-      --dropdownBorderColor: blue;
+      --dropdownBorderColor: #2c2c2c;
       --dropdownBorderWidth: 2px;
       --iconLabelGutterWidth: 4px;
       --iconWidth: 10px;
