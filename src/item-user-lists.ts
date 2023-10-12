@@ -160,13 +160,10 @@ export class ItemUserlists extends LitElement {
     let selectedCount = 0;
     /* above disable no-param-reassign */
     const thisList =
-      this.lists.find(list => option.id === list.id) || ({} as UserList);
-    const thisMember = thisList.members?.find(
-      member => member.identifier === this.itemId
-    );
+      this.lists.find(list => option.id === list.id) || ({} as any);
 
-    if (thisMember) {
-      await this.removeMember(thisList.id, thisMember.member_id);
+    if (thisList.item_is_member) {
+      await this.removeMember(thisList.id, thisList.member_id);
       selectedCount -= 1;
     } else {
       await this.addMember(thisList.id);
