@@ -170,7 +170,7 @@ export class IaItemUserLists extends LitElement {
     return html`
       <item-userlists
         slot="list"
-        .identifier=${this.item}
+        .itemId=${this.item}
         .lists=${this.userListData}
         .userListsService=${this.userListsService}
       >

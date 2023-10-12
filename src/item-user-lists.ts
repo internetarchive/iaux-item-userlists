@@ -43,7 +43,7 @@ export class ItemUserlists extends LitElement {
   /**
    * Item identifier
    */
-  @property({ type: String }) item = '';
+  @property({ type: String }) itemId = '';
 
   /**
    * List of item userlists
@@ -148,7 +148,7 @@ export class ItemUserlists extends LitElement {
 
   private async addMember(listId: string): Promise<void> {
     await this.userListsService?.addMemberToList(listId, {
-      identifier: this.item,
+      identifier: this.itemId,
     });
   }
 
@@ -162,7 +162,7 @@ export class ItemUserlists extends LitElement {
     const thisList =
       this.lists.find(list => option.id === list.id) || ({} as UserList);
     const thisMember = thisList.members?.find(
-      member => member.identifier === this.item
+      member => member.identifier === this.itemId
     );
 
     if (thisMember) {
