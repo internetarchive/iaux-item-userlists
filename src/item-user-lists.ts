@@ -152,31 +152,26 @@ export class ItemUserlists extends LitElement {
     });
   }
 
-  /*
-  private async removeMember(listId: string): Promise<void> {
-    await this.userListsService.removeMemberFromList(listId, {identifier: this.item});
-  } */
+  private async removeMember(listId: string, memberId: string): Promise<void> {
+    await this.userListsService?.removeMemberFromList(listId, memberId);
+  }
 
-  // TODO: call API to add remove member item from list
-  private onSelected(option: userListOptionInterface): void {
+  private async onSelected(option: userListOptionInterface): Promise<void> {
     let selectedCount = 0;
     /* above disable no-param-reassign */
-    this.lists = this.lists.map(list => {
-      if (list.id === option.id) {
-        list.item_is_member = !list.item_is_member;
+    const thisList =
+      this.lists.find(list => option.id === list.id) || ({} as UserList);
+    const thisMember = thisList.members?.find(
+      member => member.identifier === this.item
+    );
 
-        if (list.item_is_member) {
-          this.addMember(list.id);
-        } else {
-          //  this.removeMember(list.id);
-        }
-      }
-      if (list.item_is_member) {
-        selectedCount += 1;
-      }
-      return list;
-    });
-
+    if (thisMember) {
+      await this.removeMember(thisList.id, thisMember.member_id);
+      selectedCount -= 1;
+    } else {
+      await this.addMember(thisList.id);
+      selectedCount += 1;
+    }
     this.dispatchEvent(
       new CustomEvent('selectDropdown', {
         detail: { selected: selectedCount },

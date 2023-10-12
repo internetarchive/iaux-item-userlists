@@ -86,9 +86,7 @@ export class IaItemUserLists extends LitElement {
   }
 
   connectedCallback(): void {
-    if (super.connectedCallback) {
-      super.connectedCallback();
-    }
+    super.connectedCallback?.();
     // Set userlist data
     this.initUserLists();
   }
