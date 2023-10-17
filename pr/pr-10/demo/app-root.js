@@ -1121,7 +1121,7 @@
           ?includeSelectedOption=${!0}
           ?isCustomList=${!0}
           ?closeOnEscape=${!0}
-          ?closeOnOutsideClick=${!0}
+          ?closeOnBackdropClick=${!0}
           @click=${this.dropdownClicked}
         >
           <div class="list-title" slot="dropdown-label">${this.mainButton}</div>
