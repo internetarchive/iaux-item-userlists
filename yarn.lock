@@ -208,10 +208,10 @@
   dependencies:
     lit "^2.8.0"
 
-"@internetarchive/ia-userlist-settings@^1.0.7":
-  version "1.0.7"
-  resolved "https://registry.npmjs.org/@internetarchive/ia-userlist-settings/-/ia-userlist-settings-1.0.7.tgz"
-  integrity sha512-wnlHw+S8wV3y03tB8OnsmN3pDVO5vt6HDT7vyTPIKd0Bm7Rx4J7e845jFdaNmFcwsCo2sm10x2AO/kxjsWtuxg==
+"@internetarchive/ia-userlist-settings@^1.0.9":
+  version "1.0.9"
+  resolved "https://registry.yarnpkg.com/@internetarchive/ia-userlist-settings/-/ia-userlist-settings-1.0.9.tgz#434ea3a41024c3cbb12b302a509a090237fc82a8"
+  integrity sha512-ak67D6msTaYelGghd1f6qMO6BY4xzBGihRKtYMVzqAeJn9GzlDN/V3SIJjEDGx0JLtiDMb/ecEF8ZbFeLX9HsQ==
   dependencies:
     "@internetarchive/modal-manager" "^0.2.12"
     "@internetarchive/result-type" "^0.0.1"

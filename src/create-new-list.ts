@@ -17,6 +17,17 @@ export async function createNewList(
     body?.appendChild(modalManager);
   }
 
+  const closeModal = () => {
+    const modal = modalManager ?? document.querySelector('modal-manager');
+    modal?.showModal({
+      config: new ModalConfig(),
+      customModalContent: undefined,
+      userClosedModalCallback: undefined,
+    });
+    modal?.closeModal();
+    modalManager?.removeAttribute('id');
+  };
+
   modalManager?.setAttribute('id', 'create-user-list-modal');
 
   modalManager.showModal({
@@ -27,6 +38,7 @@ export async function createNewList(
       showHeaderLogo: false,
       closeOnBackdropClick: true,
     }),
+    userClosedModalCallback: () => closeModal(),
     customModalContent: html`
       <iaux-userlist-settings
         .userList=${{
@@ -36,13 +48,7 @@ export async function createNewList(
           is_private: false,
         }}
         .userListsService=${service}
-        @listModalClosed=${() => {
-          modalManager.showModal({
-            config: new ModalConfig(),
-            customModalContent: undefined,
-          });
-          modalManager.closeModal();
-        }}
+        @listModalClosed=${() => closeModal()}
         @userListSaved=${async (e: CustomEvent<UserList>) => {
           window.dispatchEvent(
             new CustomEvent('createUserList', {
@@ -52,12 +58,7 @@ export async function createNewList(
             })
           );
           // Clear modal content
-          modalManager.showModal({
-            config: new ModalConfig(),
-            customModalContent: undefined,
-          });
-          modalManager.closeModal();
-
+          closeModal();
           closeDropdown?.();
         }}
       ></iaux-userlist-settings>

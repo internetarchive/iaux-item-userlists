@@ -99,7 +99,7 @@
   },
   "dependencies": {
     "@internetarchive/ia-dropdown": "^1.3.1",
-    "@internetarchive/ia-userlist-settings": "^1.0.7",
+    "@internetarchive/ia-userlist-settings": "^1.0.9",
     "@internetarchive/modal-manager": "^0.2.12",
     "@internetarchive/search-service": "^1.2.3",
     "@internetarchive/user-service": "^0.1.3",
