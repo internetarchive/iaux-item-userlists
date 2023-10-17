@@ -210,7 +210,7 @@ export class IaItemUserLists extends LitElement {
           ?includeSelectedOption=${true}
           ?isCustomList=${true}
           ?closeOnEscape=${true}
-          ?closeOnOutsideClick=${true}
+          ?closeOnBackdropClick=${true}
           @click=${this.dropdownClicked}
         >
           <div class="list-title" slot="dropdown-label">${this.mainButton}</div>
