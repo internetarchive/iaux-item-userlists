@@ -106,14 +106,10 @@ export class IaItemUserLists extends LitElement {
 
   private async initUserLists(): Promise<void> {
     // Load userlist data from API
-    // eslint-disable-next-line no-console
-    console.log('fetching userlist data for item', this.item);
     const result = await this.userListsService.fetchOwnListsContainingItem(
       this.item
     );
     if (result.success) {
-      // eslint-disable-next-line no-console
-      console.log('userlist data', result.success);
       this.userListData = result.success;
 
       // Initialize selected count for main button icon state
@@ -166,7 +162,7 @@ export class IaItemUserLists extends LitElement {
     `;
   }
 
-  get itemUserlists(): TemplateResult {
+  get itemUserLists(): TemplateResult {
     return html`
       <item-userlists
         slot="list"
@@ -198,6 +194,11 @@ export class IaItemUserLists extends LitElement {
 
   dropdownClicked(): void {
     this.backdropVisible = this.dropdown.open;
+    if (this.dropdown.open) {
+      this.dropdown.focus();
+      // Set userlist data
+      this.initUserLists();
+    }
   }
 
   render() {
@@ -214,7 +215,7 @@ export class IaItemUserLists extends LitElement {
           @click=${this.dropdownClicked}
         >
           <div class="list-title" slot="dropdown-label">${this.mainButton}</div>
-          ${this.itemUserlists}
+          ${this.itemUserLists}
         </ia-dropdown>
         ${this.backdropTemplate}
       </div>
