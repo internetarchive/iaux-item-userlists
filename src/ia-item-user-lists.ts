@@ -116,7 +116,9 @@ export class IaItemUserLists extends LitElement {
       this.selectedCount = this.userListData.filter(
         item => item.item_is_member
       ).length;
-      // this.update();
+
+      // Not sure this will work
+      this.requestUpdate();
     } else {
       // eslint-disable-next-line no-console
       console.error('Error loading userlist data', result.error);
