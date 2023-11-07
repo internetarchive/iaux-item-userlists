@@ -110,6 +110,9 @@ export class IaItemUserLists extends LitElement {
       this.item
     );
     if (result.success) {
+      // eslint-disable-next-line no-console
+      console.log('userlist data', result.success);
+      this.userListData = [];
       this.userListData = result.success;
 
       // Initialize selected count for main button icon state
