@@ -156,7 +156,7 @@ export class IaItemUserLists extends LitElement {
   get mainButton(): TemplateResult {
     return html`
       <div class="action-bar-text">
-        <ia-icon-label>
+        <ia-icon-label @click=${this.mainButtonClicked}>
           <div slot="icon" class="icon-img">
             ${this.selectedCount > 0 ? this.checkIcon : this.plusIcon}
           </div>
@@ -165,6 +165,17 @@ export class IaItemUserLists extends LitElement {
         </ia-icon-label>
       </div>
     `;
+  }
+
+  mainButtonClicked(): void {
+    // eslint-disable-next-line no-console
+    console.log('mainButtonClicked', this.dropdown.open);
+    this.backdropVisible = this.dropdown.open;
+    if (this.dropdown.open) {
+      this.dropdown.focus();
+      // Set userlist data
+      this.initUserLists();
+    }
   }
 
   get itemUserLists(): TemplateResult {
@@ -198,6 +209,8 @@ export class IaItemUserLists extends LitElement {
   }
 
   dropdownClicked(): void {
+    // eslint-disable-next-line no-console
+    console.log('dropdownClicked', this.dropdown.open);
     this.backdropVisible = this.dropdown.open;
     if (this.dropdown.open) {
       this.dropdown.focus();
