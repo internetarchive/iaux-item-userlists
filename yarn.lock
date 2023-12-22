@@ -60,12 +60,12 @@
 
 "@esbuild/darwin-arm64@0.16.16":
   version "0.16.16"
-  resolved "https://registry.npmjs.org/@esbuild/darwin-arm64/-/darwin-arm64-0.16.16.tgz"
+  resolved "https://registry.yarnpkg.com/@esbuild/darwin-arm64/-/darwin-arm64-0.16.16.tgz#62ed2b4bfab594b9e5e708580361f1d059b53b26"
   integrity sha512-8Z+wld+vr/prHPi2O0X7o1zQOfMbXWGAw9hT0jEyU/l/Yrg+0Z3FO9pjPho72dVkZs4ewZk0bDOFLdZHm8jEfw==
 
 "@esbuild/darwin-x64@0.16.16":
   version "0.16.16"
-  resolved "https://registry.yarnpkg.com/@esbuild/darwin-x64/-/darwin-x64-0.16.16.tgz#e9756d34cd9b3737a5354e89ca0fdca32d8df64c"
+  resolved "https://registry.npmjs.org/@esbuild/darwin-x64/-/darwin-x64-0.16.16.tgz"
   integrity sha512-CYkxVvkZzGCqFrt7EgjFxQKhlUPyDkuR9P0Y5wEcmJqVI8ncerOIY5Kej52MhZyzOBXkYrJgZeVZC9xXXoEg9A==
 
 "@esbuild/freebsd-arm64@0.16.16":
@@ -201,16 +201,16 @@
   dependencies:
     lit "^2.2.2"
 
-"@internetarchive/ia-dropdown@^1.3.1":
-  version "1.3.1"
-  resolved "https://registry.npmjs.org/@internetarchive/ia-dropdown/-/ia-dropdown-1.3.1.tgz"
-  integrity sha512-6CwPlTw0TiXJrirlF0yiIANDS3vyua1R1AJk0XTKKU2SWGOX9LsMswTc2wNHkv1vxT+BQQOSyK0Ie8aOa3OoWg==
+"@internetarchive/ia-dropdown@^1.3.4":
+  version "1.3.4"
+  resolved "https://registry.npmjs.org/@internetarchive/ia-dropdown/-/ia-dropdown-1.3.4.tgz"
+  integrity sha512-54Ermq7gX1l5MKlyNwlScwUPFTrXJYW45JESTexCHQi+IWNG0XGx+vjLcc0E+x5jMtbWPmZW3f8JOkDAcl6x7A==
   dependencies:
     lit "^2.8.0"
 
 "@internetarchive/ia-userlist-settings@^1.0.9":
   version "1.0.9"
-  resolved "https://registry.yarnpkg.com/@internetarchive/ia-userlist-settings/-/ia-userlist-settings-1.0.9.tgz#434ea3a41024c3cbb12b302a509a090237fc82a8"
+  resolved "https://registry.npmjs.org/@internetarchive/ia-userlist-settings/-/ia-userlist-settings-1.0.9.tgz"
   integrity sha512-ak67D6msTaYelGghd1f6qMO6BY4xzBGihRKtYMVzqAeJn9GzlDN/V3SIJjEDGx0JLtiDMb/ecEF8ZbFeLX9HsQ==
   dependencies:
     "@internetarchive/modal-manager" "^0.2.12"
