@@ -34,7 +34,24 @@ export class IaItemUserLists extends LitElement {
   @state() private selectedCount: number = 0;
 
   // Data for userlist dropdown
-  @state() private userListData: UserList[] = [];
+  @state({
+    hasChanged(newVal: UserList[], oldVal: UserList[]) {
+      // eslint-disable-next-line no-console
+      console.log('userListData hasChanged called', newVal, oldVal);
+      if (newVal.length !== oldVal.length) return true;
+
+      // Check if any item is_member has changed
+      for (let i = 0; i < newVal.length; i += 1) {
+        if (newVal[i].item_is_member !== oldVal[i].item_is_member) {
+          // eslint-disable-next-line no-console
+          console.log('userListData hasChanged', newVal, oldVal);
+          return true;
+        }
+      }
+      return false;
+    },
+  })
+  private userListData: UserList[] = [];
 
   @state() private backdropVisible: boolean = false;
 
@@ -46,6 +63,7 @@ export class IaItemUserLists extends LitElement {
       baseUrl: userListServiceUrl,
     });
 
+  // Status for main button icon state
   @state() private mainButtonStatus: mainButtonStatusType = 'loading';
 
   // ??? is this used?
@@ -116,6 +134,9 @@ export class IaItemUserLists extends LitElement {
       this.selectedCount = this.userListData.filter(
         item => item.item_is_member
       ).length;
+
+      // eslint-disable-next-line no-console
+      console.log('userlists selected', this.selectedCount);
 
       this.mainButtonStatus = this.selectedCount === 0 ? 'no_lists' : 'lists';
     } else {
@@ -190,6 +211,12 @@ export class IaItemUserLists extends LitElement {
     `;
   }
 
+  isDisabled(): boolean {
+    return (
+      this.mainButtonStatus === 'loading' || this.mainButtonStatus === 'error'
+    );
+  }
+
   backdropClicked(): void {
     this.dropdown.open = false;
     this.backdropVisible = false;
@@ -211,8 +238,7 @@ export class IaItemUserLists extends LitElement {
       <div class="list-container">
         <ia-dropdown
           class="list-dropdown"
-          disabled=${this.mainButtonStatus === 'loading' ||
-          this.mainButtonStatus === 'error'}
+          disabled=${this.isDisabled()}
           ?openViaCaret=${false}
           ?closeOnSelect=${true}
           ?includeSelectedOption=${true}
@@ -242,6 +268,7 @@ export class IaItemUserLists extends LitElement {
     .icon-img {
       height: 16px;
       width: 16px;
+      padding-bottom: 3px;
     }
 
     div.list-title {
