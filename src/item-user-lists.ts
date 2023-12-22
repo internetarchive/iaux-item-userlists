@@ -86,7 +86,7 @@ export class ItemUserlists extends LitElement {
     this.lists.forEach(list => {
       const listOption = {
         label: html` <ia-icon-label>
-          <div slot="icon" class="">
+          <div slot="icon" class="icon-size">
             ${this.checkedIcon(list.item_is_member)}
           </div>
           <div class="truncate">${list.list_name}</div>

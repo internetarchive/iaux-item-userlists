@@ -38,7 +38,7 @@ export class IaItemUserLists extends LitElement {
     hasChanged(newVal: UserList[], oldVal: UserList[]) {
       // eslint-disable-next-line no-console
       console.log('userListData hasChanged called', newVal, oldVal);
-      if (newVal.length !== oldVal.length) return true;
+      if (newVal?.length !== oldVal?.length) return true;
 
       // Check if any item is_member has changed
       for (let i = 0; i < newVal.length; i += 1) {
