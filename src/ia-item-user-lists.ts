@@ -3,6 +3,7 @@
  */
 import { html, css, LitElement, type TemplateResult, nothing } from 'lit';
 import { property, customElement, state, query } from 'lit/decorators.js';
+import { Task, TaskStatus } from '@lit/task';
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 import type { IaDropdown } from '@internetarchive/ia-dropdown';
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
@@ -109,7 +110,7 @@ export class IaItemUserLists extends LitElement {
   }
 
   firstUpdated(): void {
-    this.initUserLists();
+    this.initTask.run();
   }
 
   private async addMember(listId: string): Promise<void> {
@@ -118,6 +119,18 @@ export class IaItemUserLists extends LitElement {
     });
     await this.initUserLists();
   }
+
+  private initTask = new Task(this, {
+    task: async () => {
+      const result = await this.userListsService.fetchOwnListsContainingItem(
+        this.item
+      );
+      if (!result.success) {
+        throw new Error(result.error?.message);
+      }
+      return result.success as UserList[];
+    },
+  });
 
   private async initUserLists(): Promise<void> {
     // Load userlist data from API
@@ -163,11 +176,11 @@ export class IaItemUserLists extends LitElement {
     }
   }
 
-  get mainButton(): TemplateResult {
+  private mainButton(icon: TemplateResult): TemplateResult {
     return html`
       <div class="action-bar-text">
         <ia-icon-label @click=${this.mainButtonClicked}>
-          <div slot="icon" class="icon-img">${this.mainButtonIcon}</div>
+          <div slot="icon" class="icon-img">${icon}</div>
           <div class="label">Add to list</div>
           <div class="label-sm">Lists</div>
         </ia-icon-label>
@@ -238,7 +251,7 @@ export class IaItemUserLists extends LitElement {
       <div class="list-container">
         <ia-dropdown
           class="list-dropdown"
-          disabled=${this.isDisabled()}
+          ?disabled=${this.initTask.status !== TaskStatus.COMPLETE}
           ?openViaCaret=${false}
           ?closeOnSelect=${true}
           ?includeSelectedOption=${true}
@@ -247,7 +260,15 @@ export class IaItemUserLists extends LitElement {
           ?closeOnBackdropClick=${true}
           @click=${this.dropdownClicked}
         >
-          <div class="list-title" slot="dropdown-label">${this.mainButton}</div>
+          <div class="list-title" slot="dropdown-label">
+            ${this.initTask.render({
+              initial: () => this.mainButton(spinner),
+              pending: () => this.mainButton(spinner),
+              complete: lists =>
+                this.mainButton(lists.length === 0 ? plusIcon : checkIcon),
+              error: () => this.mainButton(plusIcon),
+            })}
+          </div>
           ${this.itemUserLists}
         </ia-dropdown>
         ${this.backdropTemplate}
