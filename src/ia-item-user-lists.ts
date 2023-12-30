@@ -110,7 +110,7 @@ export class IaItemUserLists extends LitElement {
   }
 
   firstUpdated(): void {
-    this.initTask.run();
+    this.loadDataTask.run();
   }
 
   private async addMember(listId: string): Promise<void> {
@@ -120,7 +120,7 @@ export class IaItemUserLists extends LitElement {
     await this.initUserLists();
   }
 
-  private initTask = new Task(this, {
+  private loadDataTask = new Task(this, {
     task: async () => {
       const result = await this.userListsService.fetchOwnListsContainingItem(
         this.item
@@ -130,6 +130,7 @@ export class IaItemUserLists extends LitElement {
       }
       return result.success as UserList[];
     },
+    args: () => [],
   });
 
   private async initUserLists(): Promise<void> {
@@ -251,7 +252,7 @@ export class IaItemUserLists extends LitElement {
       <div class="list-container">
         <ia-dropdown
           class="list-dropdown"
-          ?disabled=${this.initTask.status !== TaskStatus.COMPLETE}
+          ?disabled=${this.loadDataTask.status !== TaskStatus.COMPLETE}
           ?openViaCaret=${false}
           ?closeOnSelect=${true}
           ?includeSelectedOption=${true}
@@ -261,7 +262,7 @@ export class IaItemUserLists extends LitElement {
           @click=${this.dropdownClicked}
         >
           <div class="list-title" slot="dropdown-label">
-            ${this.initTask.render({
+            ${this.loadDataTask.render({
               initial: () => this.mainButton(spinner),
               pending: () => this.mainButton(spinner),
               complete: lists =>
