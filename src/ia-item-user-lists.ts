@@ -109,10 +109,6 @@ export class IaItemUserLists extends LitElement {
     );
   }
 
-  firstUpdated(): void {
-    this.loadDataTask.run();
-  }
-
   private async addMember(listId: string): Promise<void> {
     await this.userListsService.addMemberToList(listId, {
       identifier: this.item,
@@ -132,6 +128,10 @@ export class IaItemUserLists extends LitElement {
     },
     args: () => [],
   });
+
+  firstUpdated(): void {
+    this.loadDataTask.run();
+  }
 
   private async initUserLists(): Promise<void> {
     // Load userlist data from API
