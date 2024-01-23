@@ -232,11 +232,10 @@ export class IaItemUserLists extends LitElement {
           class="list-dropdown"
           ?disabled=${this.dataActionTask.status !== TaskStatus.COMPLETE}
           ?openViaCaret=${false}
-          ?closeOnSelect=${true}
-          ?includeSelectedOption=${true}
           ?isCustomList=${true}
           ?closeOnEscape=${true}
           ?closeOnBackdropClick=${true}
+          ?hasCustomClickHandler=${true}
           @click=${this.dropdownClicked}
         >
           <div class="list-title" slot="dropdown-label">
