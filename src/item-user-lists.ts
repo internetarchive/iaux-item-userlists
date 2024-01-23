@@ -9,7 +9,7 @@
  */
 
 /* eslint-disable no-param-reassign */
-import { html, css, LitElement, type TemplateResult } from 'lit';
+import { html, css, LitElement, type TemplateResult, nothing } from 'lit';
 import { property, customElement } from 'lit/decorators.js';
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 import type { IaIconLabel } from '@internetarchive/ia-dropdown';
@@ -18,16 +18,22 @@ import type {
   UserList,
   UserListsServiceInterface,
 } from '@internetarchive/ia-userlist-settings';
+// import spinner from './assets/images/spinner';
 import { createNewList } from './create-new-list';
 import plusIcon from './assets/icons/plusIcon';
 import checkIcon from './assets/icons/checkIcon';
 
+// type itemUserListStatusType = 'loading' | 'loaded' | 'error';
+
+type optionStatusType = 'loading' | 'selected' | 'unselected' | 'error';
 interface userListOptionInterface {
   selectedHandler?: Function;
   label: string | TemplateResult;
   id: string;
   isSelected?: boolean;
+  status?: optionStatusType;
 }
+
 /**
  * Component to display a list of userlists
  * Used in ia-dropdown component
@@ -50,9 +56,9 @@ export class ItemUserlists extends LitElement {
    */
   @property({ type: Object }) userListsService!: UserListsServiceInterface;
 
-  renderUserListOption(option: userListOptionInterface): TemplateResult {
+  userListOptionTemplate(option: userListOptionInterface): TemplateResult {
     const { label, isSelected, id } = option;
-    const selected = isSelected ? 'selected' : '';
+    const selected = isSelected ? 'selected' : nothing;
     const component = html`<button
       id="${id}"
       @click=${() => this.optionClicked(option)}
@@ -60,7 +66,7 @@ export class ItemUserlists extends LitElement {
       ${label}
     </button> `;
 
-    return html`<li class=${selected}>${component}</li>`;
+    return html`<li class="${selected || nothing}">${component}</li>`;
   }
 
   optionClicked(option: userListOptionInterface): void {
@@ -129,6 +135,7 @@ export class ItemUserlists extends LitElement {
   }
 
   // TODO: update the check item and close immediately
+  // TODO: handle in host component
   private async onSelected(option: userListOptionInterface): Promise<void> {
     let selectedCount = 0;
     /* above disable no-param-reassign */
@@ -163,7 +170,7 @@ export class ItemUserlists extends LitElement {
 
   render() {
     return html`
-      ${this.userListOptions.map(o => this.renderUserListOption(o))}
+      ${this.userListOptions.map(o => this.userListOptionTemplate(o))}
     `;
   }
 
