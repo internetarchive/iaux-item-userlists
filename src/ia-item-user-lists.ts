@@ -1,34 +1,30 @@
 /**
  * Button and dropdown for adding item to user lists
  */
-import { html, css, LitElement, type TemplateResult, nothing } from 'lit';
+// #region Imports
+import { html, css, LitElement, type TemplateResult } from 'lit';
 import { property, customElement, state, query } from 'lit/decorators.js';
-import { Task, TaskStatus } from '@lit/task';
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
+import { Task, TaskStatus, initialState } from '@lit/task';
 import type { IaDropdown } from '@internetarchive/ia-dropdown';
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
 import {
-  UserListsService,
   type UserListsServiceInterface,
   type UserList,
-  /* UserListMember, */
-} from '@internetarchive/ia-userlist-settings';
-import { SearchService } from '@internetarchive/search-service';
-import { UserService } from '@internetarchive/user-service';
-import { FetchHandler } from './fetch-handler';
-import { userListServiceUrl } from './user-lists-service-url';
+  createUserListsService,
+} from './user-lists-service';
+
 import '@internetarchive/ia-dropdown';
 import './item-user-lists';
+
 import spinner from './assets/images/spinner';
 import plusIcon from './assets/icons/plusIcon';
 import checkIcon from './assets/icons/checkIcon';
+// #endregion
 
-type mainButtonStatusType = 'loading' | 'no_lists' | 'lists' | 'error';
+type DataAction = 'load' | 'createList' | 'select' | 'unselect';
+
 @customElement('ia-item-user-lists')
 export class IaItemUserLists extends LitElement {
-  /**
-   * Item identifier
-   */
+  // Item identifier
   @property({ type: String }) item = '';
 
   // Count for main button icon state
@@ -54,153 +50,158 @@ export class IaItemUserLists extends LitElement {
   })
   private userListData: UserList[] = [];
 
-  @state() private backdropVisible: boolean = false;
+  private listID: string = '';
 
+  @state() private dataAction: DataAction = 'load';
+
+  // UserListsService
   @state() private userListsService: UserListsServiceInterface =
-    new UserListsService({
-      fetchHandler: new FetchHandler(),
-      searchService: SearchService.default,
-      userService: new UserService(),
-      baseUrl: userListServiceUrl,
-    });
-
-  // Status for main button icon state
-  @state() private mainButtonStatus: mainButtonStatusType = 'loading';
+    createUserListsService();
 
   // ??? is this used?
   @query('ia-dropdown') private dropdown!: IaDropdown;
 
-  constructor() {
-    super();
-
-    // Listen for select Dropdown event from item-userlists
-    const selectEventListener = (e: CustomEvent) => {
-      // Set selected count for main button icon state
-      this.selectedCount = e.detail.selected as number;
-      this.initUserLists();
-    };
-    this.addEventListener(
-      'selectDropdown',
-      // eslint-disable-next-line no-undef
-      selectEventListener as EventListener
-    );
-
-    // Listen for create List event from create-new-list
-    const newListEventListener = (e: CustomEvent) => {
-      // TEMP: Set selected count for main button icon state
-      this.selectedCount += 1;
-
-      // eslint-disable-next-line no-console
-      console.log('createUserList listener', e.detail.created);
-
-      this.addMember(e.detail.created.id);
-
-      this.dispatchEvent(
-        new CustomEvent('closeDropdown', {
-          bubbles: true,
-          composed: true,
-        })
-      );
-    };
-    window.addEventListener(
-      'createUserList',
-      // eslint-disable-next-line no-undef
-      newListEventListener as EventListener
-    );
-  }
-
-  private async addMember(listId: string): Promise<void> {
-    await this.userListsService.addMemberToList(listId, {
-      identifier: this.item,
-    });
-    await this.initUserLists();
-  }
-
-  private loadDataTask = new Task(this, {
-    task: async () => {
-      const result = await this.userListsService.fetchOwnListsContainingItem(
-        this.item
-      );
-      if (!result.success) {
-        throw new Error(result.error?.message);
+  // #region Tasks */
+  dataActionTask = new Task(this, {
+    task: async ([action, listId]) => {
+      if (!this.item || !this.userListsService) {
+        return initialState;
       }
-      return result.success as UserList[];
+      switch (action) {
+        case 'load':
+          return this.updateSelectedCount();
+        case 'createList':
+          return this.appendUserList(listId);
+        case 'select':
+          return this.selectUserList(listId);
+        case 'unselect':
+          return this.unselectUserList(listId);
+        default:
+          return initialState;
+      }
     },
-    args: () => [],
+    args: () => [this.dataAction, this.listID],
+    autoRun: false,
   });
+  // #endregion
 
-  firstUpdated(): void {
-    this.loadDataTask.run();
-  }
-
-  private async initUserLists(): Promise<void> {
-    // Load userlist data from API
+  /* Data Action Methods */
+  private async updateItemUserList(): Promise<UserList[]> {
     const result = await this.userListsService.fetchOwnListsContainingItem(
       this.item
     );
-    if (result.success) {
-      // eslint-disable-next-line no-console
-      console.log('userlist data', result.success);
-      this.userListData = [];
-      this.userListData = result.success;
-
-      // Initialize selected count for main button icon state
-      this.selectedCount = this.userListData.filter(
-        item => item.item_is_member
-      ).length;
-
-      // eslint-disable-next-line no-console
-      console.log('userlists selected', this.selectedCount);
-
-      this.mainButtonStatus = this.selectedCount === 0 ? 'no_lists' : 'lists';
-    } else {
-      // eslint-disable-next-line no-console
-      console.error('Error loading userlist data', result.error);
-      // eslint-disable-next-line no-alert
-      window.alert('Error loading userlist data');
-      this.mainButtonStatus = 'error';
+    if (!result.success) {
+      throw new Error(result.error?.message);
     }
+    this.userListData = result.success as UserList[];
+    return this.userListData;
   }
 
-  get mainButtonIcon(): TemplateResult {
-    switch (this.mainButtonStatus) {
-      case 'loading':
-        return spinner;
-      case 'no_lists':
-        return plusIcon;
-      case 'lists':
-        return checkIcon;
-      case 'error':
-        return plusIcon;
-      default:
-        return spinner;
-    }
+  private async updateSelectedCount(): Promise<number> {
+    const result = await this.updateItemUserList();
+    this.selectedCount = result.filter(item => item.item_is_member).length;
+    return this.selectedCount;
   }
 
-  private mainButton(icon: TemplateResult): TemplateResult {
+  private async appendUserList(listId: string): Promise<number> {
+    await this.userListsService.addMemberToList(listId, {
+      identifier: this.item,
+    });
+    return this.updateSelectedCount();
+  }
+
+  private async selectUserList(listId: string): Promise<number> {
+    await this.userListsService.addMemberToList(listId, {
+      identifier: this.item,
+    });
+    return this.updateSelectedCount();
+  }
+
+  private async unselectUserList(listId: string): Promise<number> {
+    await this.userListsService.addMemberToList(listId, {
+      identifier: this.item,
+    });
+    return this.updateSelectedCount();
+  }
+
+  /* Event Handlers */
+
+  // listID, memberID
+  // Listen for select Dropdown event from item-userlists
+  selectEventListener = () => {
+    this.dataActionTask.run(['load']);
+  };
+
+  // Listen for create List event from create-new-list
+  newListEventListener = (e: CustomEvent) => {
+    // TEMP: Set selected count for main button icon state
+    this.selectedCount += 1;
+
+    // eslint-disable-next-line no-console
+    console.log('createUserList listener', e.detail.created);
+
+    this.appendUserList(e.detail.created.id);
+
+    this.dispatchEvent(
+      new CustomEvent('closeDropdown', {
+        bubbles: true,
+        composed: true,
+      })
+    );
+  };
+
+  // #region Lifecycle Methods
+  async firstUpdated(): Promise<void> {
+    // Give the browser a chance to paint
+    // eslint-disable-next-line no-promise-executor-return
+    await new Promise(r => setTimeout(r, 0));
+
+    // Setup event listeners
+    this.addEventListener(
+      'selectDropdown',
+      // eslint-disable-next-line no-undef
+      this.selectEventListener as EventListener
+    );
+
+    window.addEventListener(
+      'createUserList',
+      // eslint-disable-next-line no-undef
+      this.newListEventListener as EventListener
+    );
+
+    this.dataActionTask.run(['load']);
+  }
+  // #endregion
+
+  renderIcon(icon: TemplateResult): TemplateResult {
+    return html`
+      <div slot="icon" class="icon-img">${icon}</div>
+      <div class="label">Add to list</div>
+      <div class="label-sm">Lists</div>
+    `;
+  }
+
+  renderError(): TemplateResult {
+    return html`
+      <div class="label">User Lists<br />Load Error</div>
+      <div class="label-sm">Load<br />Error</div>
+    `;
+  }
+
+  mainButton(icon: TemplateResult | undefined): TemplateResult {
     return html`
       <div class="action-bar-text">
-        <ia-icon-label @click=${this.mainButtonClicked}>
-          <div slot="icon" class="icon-img">${icon}</div>
-          <div class="label">Add to list</div>
-          <div class="label-sm">Lists</div>
+        <ia-icon-label>
+          ${icon ? this.renderIcon(icon) : this.renderError()}
         </ia-icon-label>
       </div>
     `;
   }
 
-  mainButtonClicked(): void {
-    // eslint-disable-next-line no-console
-    console.log('mainButtonClicked', this.dropdown.open);
-    this.backdropVisible = this.dropdown.open;
-    if (this.dropdown.open) {
-      this.dropdown.focus();
-      // Set userlist data
-      this.initUserLists();
-    }
-  }
-
   get itemUserLists(): TemplateResult {
+    if (this.dataActionTask.status !== TaskStatus.COMPLETE) {
+      return html``;
+    }
     return html`
       <item-userlists
         slot="list"
@@ -212,38 +213,15 @@ export class IaItemUserLists extends LitElement {
     `;
   }
 
-  get backdropTemplate(): TemplateResult | typeof nothing {
-    // const visibleBackdrop = !this.backdropVisible;
-    const visibleBackdrop = true;
-    if (visibleBackdrop) return nothing;
-    return html`
-      <div
-        class="click-backdrop"
-        @click=${this.backdropClicked}
-        @keypress=${this.backdropClicked}
-      ></div>
-    `;
-  }
-
-  isDisabled(): boolean {
-    return (
-      this.mainButtonStatus === 'loading' || this.mainButtonStatus === 'error'
-    );
-  }
-
-  backdropClicked(): void {
-    this.dropdown.open = false;
-    this.backdropVisible = false;
-  }
-
-  dropdownClicked(): void {
+  async dropdownClicked(): Promise<void> {
     // eslint-disable-next-line no-console
     console.log('dropdownClicked', this.dropdown.open);
-    this.backdropVisible = this.dropdown.open;
-    if (this.dropdown.open) {
-      this.dropdown.focus();
-      // Set userlist data
-      this.initUserLists();
+    if (!this.dropdown.open) {
+      // get userlist data
+      await this.dataActionTask.run(['load']);
+      this.dropdown.open = true;
+    } else {
+      this.dropdown.open = false;
     }
   }
 
@@ -252,7 +230,7 @@ export class IaItemUserLists extends LitElement {
       <div class="list-container">
         <ia-dropdown
           class="list-dropdown"
-          ?disabled=${this.loadDataTask.status !== TaskStatus.COMPLETE}
+          ?disabled=${this.dataActionTask.status !== TaskStatus.COMPLETE}
           ?openViaCaret=${false}
           ?closeOnSelect=${true}
           ?includeSelectedOption=${true}
@@ -262,17 +240,16 @@ export class IaItemUserLists extends LitElement {
           @click=${this.dropdownClicked}
         >
           <div class="list-title" slot="dropdown-label">
-            ${this.loadDataTask.render({
+            ${this.dataActionTask.render({
               initial: () => this.mainButton(spinner),
               pending: () => this.mainButton(spinner),
-              complete: lists =>
-                this.mainButton(lists.length === 0 ? plusIcon : checkIcon),
-              error: () => this.mainButton(plusIcon),
+              complete: listCount =>
+                this.mainButton(listCount < 2 ? plusIcon : checkIcon),
+              error: () => this.mainButton(undefined),
             })}
           </div>
           ${this.itemUserLists}
         </ia-dropdown>
-        ${this.backdropTemplate}
       </div>
     `;
   }
