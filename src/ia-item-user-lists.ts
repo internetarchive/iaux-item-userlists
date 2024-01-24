@@ -278,7 +278,7 @@ export class IaItemUserLists extends LitElement {
               initial: () => this.mainButton(spinner),
               pending: () => this.mainButton(spinner),
               complete: listCount =>
-                this.mainButton(listCount ? plusIcon : checkIcon),
+                this.mainButton(listCount === 0 ? plusIcon : checkIcon),
               error: () => this.mainButton(undefined),
             })}
           </div>
