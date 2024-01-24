@@ -9,11 +9,10 @@
  */
 
 /* eslint-disable no-param-reassign */
-import { html, css, LitElement, type TemplateResult, nothing } from 'lit';
+import { html, css, LitElement, type TemplateResult } from 'lit';
 import { property, customElement } from 'lit/decorators.js';
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
-import type { IaIconLabel } from '@internetarchive/ia-dropdown';
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
+import { ifDefined } from 'lit/directives/if-defined.js';
+
 import type {
   UserList,
   UserListsServiceInterface,
@@ -58,7 +57,7 @@ export class ItemUserlists extends LitElement {
 
   userListOptionTemplate(option: userListOptionInterface): TemplateResult {
     const { label, isSelected, id } = option;
-    const selected = isSelected ? 'selected' : nothing;
+    const selected = isSelected ? 'selected' : undefined;
     const component = html`<button
       id="${id}"
       @click=${() => this.optionClicked(option)}
@@ -66,7 +65,7 @@ export class ItemUserlists extends LitElement {
       ${label}
     </button> `;
 
-    return html`<li class="${selected || nothing}">${component}</li>`;
+    return html`<li class="${ifDefined(selected)}">${component}</li>`;
   }
 
   optionClicked(option: userListOptionInterface): void {

@@ -31,15 +31,11 @@ export class IaItemUserLists extends LitElement {
   // Data for userlist dropdown
   @state({
     hasChanged(newVal: UserList[], oldVal: UserList[]) {
-      // eslint-disable-next-line no-console
-      console.log('userListData hasChanged called', newVal, oldVal);
       if (newVal?.length !== oldVal?.length) return true;
 
       // Check if any item is_member has changed
       for (let i = 0; i < newVal.length; i += 1) {
         if (newVal[i].item_is_member !== oldVal[i].item_is_member) {
-          // eslint-disable-next-line no-console
-          console.log('userListData hasChanged', newVal, oldVal);
           return true;
         }
       }
@@ -48,6 +44,7 @@ export class IaItemUserLists extends LitElement {
   })
   private userListData: UserList[] = [];
 
+  // Which action to perform on data
   @state() private dataAction: DataAction = 'load';
 
   // UserListsService
@@ -60,7 +57,12 @@ export class IaItemUserLists extends LitElement {
 
   // Tasks
 
-  dataActionTask = new Task(this, {
+  /**
+   * Task managing all async data and UI updates
+   * @param action {DataAction} - Action to perform
+   * @param listId {string} - List ID
+   */
+  private dataActionTask = new Task(this, {
     task: async ([action, listId]) => {
       if (!this.item || !this.userListsService) {
         return initialState;
@@ -83,6 +85,11 @@ export class IaItemUserLists extends LitElement {
   });
 
   // Data Action Methods
+
+  /**
+   * Fetch user lists for item
+   * @returns Promise<UserList[]>
+   */
   private async updateItemUserList(): Promise<UserList[]> {
     const result = await this.userListsService.fetchOwnListsContainingItem(
       this.item
@@ -94,12 +101,21 @@ export class IaItemUserLists extends LitElement {
     return this.userListData;
   }
 
+  /**
+   * Return count of lists selected for this item after update from API
+   * @returns Promise<number>
+   */
   private async updateSelectedCount(): Promise<number> {
     const result = await this.updateItemUserList();
     this.selectedCount = result.filter(item => item.item_is_member).length;
     return this.selectedCount;
   }
 
+  /**
+   * Appends new list to item's selected user lists, update selectedCount
+   * @param listId
+   * @returns Promise<number>
+   */
   private async appendUserList(listId: string): Promise<number> {
     await this.userListsService.addMemberToList(listId, {
       identifier: this.item,
@@ -107,6 +123,11 @@ export class IaItemUserLists extends LitElement {
     return this.updateSelectedCount();
   }
 
+  /**
+   * Select user list for item, update selectedCount
+   * @param listId
+   * @returns Promise<number>
+   */
   private async selectUserList(listId: string): Promise<number> {
     await this.userListsService.addMemberToList(listId, {
       identifier: this.item,
@@ -114,6 +135,11 @@ export class IaItemUserLists extends LitElement {
     return this.updateSelectedCount();
   }
 
+  /**
+   * Unselect user list for item, update selectedCount
+   * @param listId
+   * @returns Promise<number>
+   */
   private async unselectUserList(listId: string): Promise<number> {
     await this.userListsService.addMemberToList(listId, {
       identifier: this.item,
@@ -127,8 +153,6 @@ export class IaItemUserLists extends LitElement {
     if (!this.isFetched) {
       return;
     }
-    // eslint-disable-next-line no-console
-    console.log('dropdownClicked', this.dropdown.open);
     if (!this.dropdown.open) {
       // get userlist data
       await this.dataActionTask.run(['load']);
@@ -150,9 +174,6 @@ export class IaItemUserLists extends LitElement {
   newListEventListener = (e: CustomEvent) => {
     // TEMP: Set selected count for main button icon state
     this.selectedCount += 1;
-
-    // eslint-disable-next-line no-console
-    console.log('createUserList listener', e.detail.created);
 
     this.appendUserList(e.detail.created.id);
 
@@ -257,7 +278,7 @@ export class IaItemUserLists extends LitElement {
               initial: () => this.mainButton(spinner),
               pending: () => this.mainButton(spinner),
               complete: listCount =>
-                this.mainButton(listCount < 2 ? plusIcon : checkIcon),
+                this.mainButton(listCount ? plusIcon : checkIcon),
               error: () => this.mainButton(undefined),
             })}
           </div>
