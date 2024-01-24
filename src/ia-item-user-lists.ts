@@ -1,8 +1,7 @@
 /**
  * Button and dropdown for adding item to user lists
  */
-// #region Imports
-import { html, css, LitElement, type TemplateResult } from 'lit';
+import { html, css, LitElement, nothing, type TemplateResult } from 'lit';
 import { property, customElement, state, query } from 'lit/decorators.js';
 import { Task, TaskStatus, initialState } from '@lit/task';
 import type { IaDropdown } from '@internetarchive/ia-dropdown';
@@ -18,7 +17,6 @@ import './item-user-lists';
 import spinner from './assets/images/spinner';
 import plusIcon from './assets/icons/plusIcon';
 import checkIcon from './assets/icons/checkIcon';
-// #endregion
 
 type DataAction = 'load' | 'createList' | 'select' | 'unselect';
 
@@ -50,18 +48,18 @@ export class IaItemUserLists extends LitElement {
   })
   private userListData: UserList[] = [];
 
-  private listID: string = '';
-
   @state() private dataAction: DataAction = 'load';
 
   // UserListsService
   @state() private userListsService: UserListsServiceInterface =
     createUserListsService();
 
-  // ??? is this used?
   @query('ia-dropdown') private dropdown!: IaDropdown;
 
-  // #region Tasks */
+  private listID: string = '';
+
+  // Tasks
+
   dataActionTask = new Task(this, {
     task: async ([action, listId]) => {
       if (!this.item || !this.userListsService) {
@@ -83,9 +81,8 @@ export class IaItemUserLists extends LitElement {
     args: () => [this.dataAction, this.listID],
     autoRun: false,
   });
-  // #endregion
 
-  /* Data Action Methods */
+  // Data Action Methods
   private async updateItemUserList(): Promise<UserList[]> {
     const result = await this.userListsService.fetchOwnListsContainingItem(
       this.item
@@ -124,7 +121,24 @@ export class IaItemUserLists extends LitElement {
     return this.updateSelectedCount();
   }
 
-  /* Event Handlers */
+  // Events
+
+  async dropdownClicked(): Promise<void> {
+    if (!this.isFetched) {
+      return;
+    }
+    // eslint-disable-next-line no-console
+    console.log('dropdownClicked', this.dropdown.open);
+    if (!this.dropdown.open) {
+      // get userlist data
+      await this.dataActionTask.run(['load']);
+      this.dropdown.open = true;
+    } else {
+      this.dropdown.open = false;
+    }
+  }
+
+  // Event Handlers
 
   // listID, memberID
   // Listen for select Dropdown event from item-userlists
@@ -150,7 +164,8 @@ export class IaItemUserLists extends LitElement {
     );
   };
 
-  // #region Lifecycle Methods
+  // Lifecycle Methods
+
   async firstUpdated(): Promise<void> {
     // Give the browser a chance to paint
     // eslint-disable-next-line no-promise-executor-return
@@ -171,7 +186,8 @@ export class IaItemUserLists extends LitElement {
 
     this.dataActionTask.run(['load']);
   }
-  // #endregion
+
+  // Main button
 
   renderIcon(icon: TemplateResult): TemplateResult {
     return html`
@@ -198,8 +214,18 @@ export class IaItemUserLists extends LitElement {
     `;
   }
 
-  get itemUserLists(): TemplateResult {
-    if (this.dataActionTask.status !== TaskStatus.COMPLETE) {
+  // Templates
+
+  get isFetched(): boolean {
+    return this.dataActionTask.status === TaskStatus.COMPLETE;
+  }
+
+  get isDisabled(): boolean {
+    return this.dataActionTask.status !== TaskStatus.COMPLETE;
+  }
+
+  get itemUserListsTemplate(): TemplateResult {
+    if (!this.isFetched) {
       return html``;
     }
     return html`
@@ -213,30 +239,18 @@ export class IaItemUserLists extends LitElement {
     `;
   }
 
-  async dropdownClicked(): Promise<void> {
-    // eslint-disable-next-line no-console
-    console.log('dropdownClicked', this.dropdown.open);
-    if (!this.dropdown.open) {
-      // get userlist data
-      await this.dataActionTask.run(['load']);
-      this.dropdown.open = true;
-    } else {
-      this.dropdown.open = false;
-    }
-  }
-
   render() {
     return html`
       <div class="list-container">
         <ia-dropdown
           class="list-dropdown"
-          ?disabled=${this.dataActionTask.status !== TaskStatus.COMPLETE}
+          ?isDisabled=${this.isDisabled}
           ?openViaCaret=${false}
           ?isCustomList=${true}
           ?closeOnEscape=${true}
           ?closeOnBackdropClick=${true}
           ?hasCustomClickHandler=${true}
-          @click=${this.dropdownClicked}
+          @click=${this.isDisabled ? nothing : this.dropdownClicked}
         >
           <div class="list-title" slot="dropdown-label">
             ${this.dataActionTask.render({
@@ -247,7 +261,7 @@ export class IaItemUserLists extends LitElement {
               error: () => this.mainButton(undefined),
             })}
           </div>
-          ${this.itemUserLists}
+          ${this.itemUserListsTemplate}
         </ia-dropdown>
       </div>
     `;
