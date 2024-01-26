@@ -201,9 +201,9 @@ export class IaItemUserLists extends LitElement {
   }
 
   get itemUserListsTemplate(): TemplateResult {
-    if (!this.isFetched) {
-      return html``;
-    }
+    // if (!this.isFetched) {
+    //   return html``;
+    // }
     return html`
       <item-userlists
         slot="list"
