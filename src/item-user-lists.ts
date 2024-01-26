@@ -56,6 +56,8 @@ export class ItemUserlists extends LitElement {
   // Events
 
   private updateCount(): void {
+    // eslint-disable-next-line no-console
+    console.log('updateCount called');
     this.dispatchEvent(
       new CustomEvent('updateDropdown', {
         bubbles: true,
@@ -65,6 +67,8 @@ export class ItemUserlists extends LitElement {
   }
 
   private closeDropdown(): void {
+    // eslint-disable-next-line no-console
+    console.log('closeDropdown called');
     this.dispatchEvent(
       new CustomEvent('closeDropdown', {
         bubbles: true,

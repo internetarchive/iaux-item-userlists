@@ -55,6 +55,64 @@ export class IaItemUserLists extends LitElement {
 
   private listID: string = '';
 
+  // Events
+
+  async dropdownClicked(e: Event): Promise<void> {
+    // eslint-disable-next-line no-console
+    console.log('dropdownClicked called ', e.target);
+    // if (!this.isFetched) {
+    //   return;
+    // }
+    if (!this.dropdown.open) {
+      // get userlist data
+      await this.dataActionTask.run(['load']);
+      this.dropdown.open = true;
+    } else {
+      this.dropdown.open = false;
+    }
+  }
+
+  // Event Handlers
+
+  // listID, memberID
+  // Listen for select Dropdown event from item-userlists
+  closeListener = (e: Event): void => {
+    // eslint-disable-next-line no-console
+    console.log('closeListener called ', e.target);
+    this.dropdown.open = false;
+    this.dataActionTask.run(['initial']);
+  };
+
+  // Listen for create List event from create-new-list
+  updateListener = (e: Event): void => {
+    // eslint-disable-next-line no-console
+    console.log('updateListener called ', e.target);
+    this.dataActionTask.run(['load']);
+  };
+
+  // Lifecycle Methods
+
+  async firstUpdated(): Promise<void> {
+    // Give the browser a chance to paint
+    // eslint-disable-next-line no-promise-executor-return
+    await new Promise(r => setTimeout(r, 0));
+
+    // Setup event listeners
+    this.addEventListener(
+      'closeDropdown',
+      // eslint-disable-next-line no-undef
+      this.closeListener as EventListener
+    );
+
+    this.addEventListener(
+      'updateDropdown',
+      // eslint-disable-next-line no-undef
+      this.updateListener as EventListener
+    );
+
+    this.dataActionTask.run(['load']);
+  }
+
   // Tasks
 
   /**
@@ -103,62 +161,6 @@ export class IaItemUserLists extends LitElement {
     const result = await this.updateItemUserList();
     this.selectedCount = result.filter(item => item.item_is_member).length;
     return this.selectedCount;
-  }
-
-  // Events
-
-  async dropdownClicked(): Promise<void> {
-    if (!this.isFetched) {
-      return;
-    }
-    if (!this.dropdown.open) {
-      // get userlist data
-      await this.dataActionTask.run(['load']);
-      this.dropdown.open = true;
-    } else {
-      this.dropdown.open = false;
-    }
-  }
-
-  // Event Handlers
-
-  // listID, memberID
-  // Listen for select Dropdown event from item-userlists
-  closeListener = (): void => {
-    // eslint-disable-next-line no-console
-    console.log('closeListener called');
-    this.dropdown.open = false;
-    this.dataActionTask.run(['initial']);
-  };
-
-  // Listen for create List event from create-new-list
-  updateListener = (): void => {
-    // eslint-disable-next-line no-console
-    console.log('updateListener called');
-    this.dataActionTask.run(['load']);
-  };
-
-  // Lifecycle Methods
-
-  async firstUpdated(): Promise<void> {
-    // Give the browser a chance to paint
-    // eslint-disable-next-line no-promise-executor-return
-    await new Promise(r => setTimeout(r, 0));
-
-    // Setup event listeners
-    this.addEventListener(
-      'closeDropdown',
-      // eslint-disable-next-line no-undef
-      this.closeListener as EventListener
-    );
-
-    this.addEventListener(
-      'updateDropdown',
-      // eslint-disable-next-line no-undef
-      this.updateListener as EventListener
-    );
-
-    this.dataActionTask.run(['load']);
   }
 
   // Main button

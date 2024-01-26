@@ -201,10 +201,10 @@
   dependencies:
     lit "^2.2.2"
 
-"@internetarchive/ia-dropdown@^1.3.7-alpha.2":
-  version "1.3.7-alpha.2"
-  resolved "https://registry.yarnpkg.com/@internetarchive/ia-dropdown/-/ia-dropdown-1.3.7-alpha.2.tgz#400735b5c48e2b6a05ffe0ad705220419875dada"
-  integrity sha512-C1ZryzfRZ2LJ+qUBY8xjiwqCjG6S+LNbVEFlFUb/R131ShsUepedisKZHvVw16IN/vUnlA40GsjZ2QKGOKYU4g==
+"@internetarchive/ia-dropdown@^1.3.7-alpha.3":
+  version "1.3.7-alpha.3"
+  resolved "https://registry.yarnpkg.com/@internetarchive/ia-dropdown/-/ia-dropdown-1.3.7-alpha.3.tgz#a19b194da5e50e37e7fa75cdee69c5d9f55497b8"
+  integrity sha512-u5Qsvu0y137/Z5dSV3EJfgilhAWJ+tL9jGjXzjAmgHMuICqv2dExhfKp9mDmNXkWNh56L8XmW4qEfyvcoWNwQg==
   dependencies:
     lit "^2.8.0"
 
