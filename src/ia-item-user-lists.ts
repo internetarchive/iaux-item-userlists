@@ -125,12 +125,16 @@ export class IaItemUserLists extends LitElement {
   // listID, memberID
   // Listen for select Dropdown event from item-userlists
   closeListener = (): void => {
+    // eslint-disable-next-line no-console
+    console.log('closeListener called');
     this.dropdown.open = false;
     this.dataActionTask.run(['initial']);
   };
 
   // Listen for create List event from create-new-list
   updateListener = (): void => {
+    // eslint-disable-next-line no-console
+    console.log('updateListener called');
     this.dataActionTask.run(['load']);
   };
 

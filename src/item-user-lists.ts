@@ -117,8 +117,6 @@ export class ItemUserlists extends LitElement {
           this.onSelected(option),
       } as userListOptionInterface;
       options.push(listOption);
-      // eslint-disable-next-line no-console
-      console.log('listOption', listOption);
     });
 
     const createNewListOption: userListOptionInterface = {
@@ -162,7 +160,7 @@ export class ItemUserlists extends LitElement {
     const component = html`<button
       id="${id}"
       @click=${(e: Event) => {
-        e.stopImmediatePropagation();
+        e.stopPropagation();
         this.optionClicked(option);
       }}
     >
