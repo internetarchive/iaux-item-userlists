@@ -80,7 +80,7 @@ export class ItemUserlists extends LitElement {
   // Event handlers
 
   private async onSelected(option: userListOptionInterface): Promise<void> {
-    this.closeDropdown();
+    // this.closeDropdown();
 
     const thisList =
       this.lists.find(list => option.id === list.id) || ({} as any);
