@@ -1017,7 +1017,7 @@ xmlns="http://www.w3.org/2000/svg"
   d="m33.3333333 90-33.3333333-33.3333333 13.3333333-13.3333334 20 20 53.3333334-53.3333333 13.3333333 13.3333333z"
   fill-rule="evenodd" fill="currentColor"
 />
-</svg>`;let ce=class extends E{constructor(){super(...arguments),this.itemId="",this.lists=[]}optionClicked(e){var t;(t=e.selectedHandler)===null||t===void 0||t.call(e,e)}updateCount(){this.dispatchEvent(new CustomEvent("updateDropdown",{bubbles:!0,composed:!0}))}closeDropdown(){this.dispatchEvent(new CustomEvent("closeDropdown",{bubbles:!0,composed:!0}))}async onSelected(e){this.closeDropdown();const t=this.lists.find(i=>e.id===i.id)||{};t.item_is_member?await this.removeMember(t.id,t.member_id):await this.addMember(t.id),this.updateCount()}async createList(){await Ri(this.userListsService,()=>this.closeDropdown())}get userListOptions(){const e=[];this.lists.forEach(i=>{const r={label:m` <ia-icon-label>
+</svg>`;let ce=class extends E{constructor(){super(...arguments),this.itemId="",this.lists=[]}updateCount(){this.dispatchEvent(new CustomEvent("updateDropdown",{bubbles:!0,composed:!0}))}closeDropdown(){this.dispatchEvent(new CustomEvent("closeDropdown",{bubbles:!0,composed:!0}))}optionClicked(e){var t;(t=e.selectedHandler)===null||t===void 0||t.call(e,e)}async onSelected(e){this.closeDropdown();const t=this.lists.find(i=>e.id===i.id)||{};t.item_is_member?await this.removeMember(t.id,t.member_id):await this.addMember(t.id),this.updateCount()}async createList(){await Ri(this.userListsService,()=>this.closeDropdown())}get userListOptions(){const e=[];this.lists.forEach(i=>{const r={label:m` <ia-icon-label>
           <div slot="icon" class="icon-size">
             ${this.checkedIcon(i.item_is_member)}
           </div>
@@ -1027,7 +1027,7 @@ xmlns="http://www.w3.org/2000/svg"
         Create new list
       </ia-icon-label>`,id:"create-new-list",selectedHandler:()=>this.createList()};return e.push(t),e}async addMember(e){var t;await((t=this.userListsService)===null||t===void 0?void 0:t.addMemberToList(e,{identifier:this.itemId}))}async removeMember(e,t){var i;await((i=this.userListsService)===null||i===void 0?void 0:i.removeMemberFromList(e,t))}checkedIcon(e){return e?Ut:m``}userListOptionTemplate(e){const{label:t,isSelected:i,id:r}=e,n=i?"selected":void 0,s=m`<button
       id="${r}"
-      @click=${()=>this.optionClicked(e)}
+      @click=${d=>{d.stopImmediatePropagation(),this.optionClicked(e)}}
     >
       ${t}
     </button> `;return m`<li class="${Ge(n)}">${s}</li>`}render(){return m`
