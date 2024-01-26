@@ -63,24 +63,18 @@ export class IaItemUserLists extends LitElement {
    * @param listId {string} - List ID
    */
   private dataActionTask = new Task(this, {
-    task: async ([action, listId]) => {
+    task: async ([action]) => {
       if (!this.item || !this.userListsService) {
         return initialState;
       }
       switch (action) {
         case 'load':
           return this.updateSelectedCount();
-        case 'createList':
-          return this.appendUserList(listId);
-        case 'select':
-          return this.selectUserList(listId);
-        case 'unselect':
-          return this.unselectUserList(listId);
         default:
           return initialState;
       }
     },
-    args: () => [this.dataAction, this.listID],
+    args: () => [this.dataAction],
     autoRun: false,
   });
 
@@ -109,42 +103,6 @@ export class IaItemUserLists extends LitElement {
     const result = await this.updateItemUserList();
     this.selectedCount = result.filter(item => item.item_is_member).length;
     return this.selectedCount;
-  }
-
-  /**
-   * Appends new list to item's selected user lists, update selectedCount
-   * @param listId
-   * @returns Promise<number>
-   */
-  private async appendUserList(listId: string): Promise<number> {
-    await this.userListsService.addMemberToList(listId, {
-      identifier: this.item,
-    });
-    return this.updateSelectedCount();
-  }
-
-  /**
-   * Select user list for item, update selectedCount
-   * @param listId
-   * @returns Promise<number>
-   */
-  private async selectUserList(listId: string): Promise<number> {
-    await this.userListsService.addMemberToList(listId, {
-      identifier: this.item,
-    });
-    return this.updateSelectedCount();
-  }
-
-  /**
-   * Unselect user list for item, update selectedCount
-   * @param listId
-   * @returns Promise<number>
-   */
-  private async unselectUserList(listId: string): Promise<number> {
-    await this.userListsService.addMemberToList(listId, {
-      identifier: this.item,
-    });
-    return this.updateSelectedCount();
   }
 
   // Events
