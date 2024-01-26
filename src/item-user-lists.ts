@@ -7,8 +7,6 @@
  *   'closeDropdown'
  *     - have parent close the dropdown
  */
-
-/* eslint-disable no-param-reassign */
 import { html, css, LitElement, type TemplateResult } from 'lit';
 import { property, customElement } from 'lit/decorators.js';
 import { ifDefined } from 'lit/directives/if-defined.js';
@@ -55,34 +53,51 @@ export class ItemUserlists extends LitElement {
    */
   @property({ type: Object }) userListsService!: UserListsServiceInterface;
 
-  userListOptionTemplate(option: userListOptionInterface): TemplateResult {
-    const { label, isSelected, id } = option;
-    const selected = isSelected ? 'selected' : undefined;
-    const component = html`<button
-      id="${id}"
-      @click=${() => this.optionClicked(option)}
-    >
-      ${label}
-    </button> `;
-
-    return html`<li class="${ifDefined(selected)}">${component}</li>`;
-  }
+  // Events
 
   optionClicked(option: userListOptionInterface): void {
-    this.dispatchEvent(
-      new CustomEvent('optionSelected', {
-        detail: { option },
-      })
-    );
     option.selectedHandler?.(option);
   }
 
-  private checkedIcon(checked?: boolean): TemplateResult {
-    if (checked) {
-      return checkIcon;
-    }
-    return html``;
+  private updateCount(): void {
+    this.dispatchEvent(
+      new CustomEvent('updateDropdown', {
+        bubbles: true,
+        composed: true,
+      })
+    );
   }
+
+  private closeDropdown(): void {
+    this.dispatchEvent(
+      new CustomEvent('closeDropdown', {
+        bubbles: true,
+        composed: true,
+      })
+    );
+  }
+
+  // Event handlers
+
+  private async onSelected(option: userListOptionInterface): Promise<void> {
+    this.closeDropdown();
+
+    const thisList =
+      this.lists.find(list => option.id === list.id) || ({} as any);
+
+    if (thisList.item_is_member) {
+      await this.removeMember(thisList.id, thisList.member_id);
+    } else {
+      await this.addMember(thisList.id);
+    }
+    this.updateCount();
+  }
+
+  private async createList(): Promise<void> {
+    await createNewList(this.userListsService, () => this.closeDropdown());
+  }
+
+  // Options
 
   // Convert userlist data into a list of options
   get userListOptions(): userListOptionInterface[] {
@@ -119,9 +134,7 @@ export class ItemUserlists extends LitElement {
     return options;
   }
 
-  private async createList(): Promise<void> {
-    await createNewList(this.userListsService, () => this.closeDropdown());
-  }
+  // Data
 
   private async addMember(listId: string): Promise<void> {
     await this.userListsService?.addMemberToList(listId, {
@@ -133,38 +146,27 @@ export class ItemUserlists extends LitElement {
     await this.userListsService?.removeMemberFromList(listId, memberId);
   }
 
-  // TODO: update the check item and close immediately
-  // TODO: handle in host component
-  private async onSelected(option: userListOptionInterface): Promise<void> {
-    let selectedCount = 0;
-    /* above disable no-param-reassign */
-    const thisList =
-      this.lists.find(list => option.id === list.id) || ({} as any);
-
-    if (thisList.item_is_member) {
-      await this.removeMember(thisList.id, thisList.member_id);
-      selectedCount -= 1;
-    } else {
-      await this.addMember(thisList.id);
-      selectedCount += 1;
+  // UI Helpers
+  private checkedIcon(checked?: boolean): TemplateResult {
+    if (checked) {
+      return checkIcon;
     }
-    this.dispatchEvent(
-      new CustomEvent('selectDropdown', {
-        detail: { selected: selectedCount },
-        bubbles: true,
-        composed: true,
-      })
-    );
-    this.closeDropdown();
+    return html``;
   }
 
-  private closeDropdown(): void {
-    this.dispatchEvent(
-      new CustomEvent('closeDropdown', {
-        bubbles: true,
-        composed: true,
-      })
-    );
+  // Templates
+
+  userListOptionTemplate(option: userListOptionInterface): TemplateResult {
+    const { label, isSelected, id } = option;
+    const selected = isSelected ? 'selected' : undefined;
+    const component = html`<button
+      id="${id}"
+      @click=${() => this.optionClicked(option)}
+    >
+      ${label}
+    </button> `;
+
+    return html`<li class="${ifDefined(selected)}">${component}</li>`;
   }
 
   render() {

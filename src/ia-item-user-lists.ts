@@ -18,7 +18,7 @@ import spinner from './assets/images/spinner';
 import plusIcon from './assets/icons/plusIcon';
 import checkIcon from './assets/icons/checkIcon';
 
-type DataAction = 'load' | 'createList' | 'select' | 'unselect';
+type DataAction = 'initial' | 'load';
 
 @customElement('ia-item-user-lists')
 export class IaItemUserLists extends LitElement {
@@ -45,7 +45,7 @@ export class IaItemUserLists extends LitElement {
   private userListData: UserList[] = [];
 
   // Which action to perform on data
-  @state() private dataAction: DataAction = 'load';
+  @state() private dataAction: DataAction = 'initial';
 
   // UserListsService
   @state() private userListsService: UserListsServiceInterface =
@@ -124,23 +124,14 @@ export class IaItemUserLists extends LitElement {
 
   // listID, memberID
   // Listen for select Dropdown event from item-userlists
-  selectEventListener = () => {
-    this.dataActionTask.run(['load']);
+  closeListener = (): void => {
+    this.dropdown.open = false;
+    this.dataActionTask.run(['initial']);
   };
 
   // Listen for create List event from create-new-list
-  newListEventListener = (e: CustomEvent) => {
-    // TEMP: Set selected count for main button icon state
-    this.selectedCount += 1;
-
-    this.appendUserList(e.detail.created.id);
-
-    this.dispatchEvent(
-      new CustomEvent('closeDropdown', {
-        bubbles: true,
-        composed: true,
-      })
-    );
+  updateListener = (): void => {
+    this.dataActionTask.run(['load']);
   };
 
   // Lifecycle Methods
@@ -152,15 +143,15 @@ export class IaItemUserLists extends LitElement {
 
     // Setup event listeners
     this.addEventListener(
-      'selectDropdown',
+      'closeDropdown',
       // eslint-disable-next-line no-undef
-      this.selectEventListener as EventListener
+      this.closeListener as EventListener
     );
 
-    window.addEventListener(
-      'createUserList',
+    this.addEventListener(
+      'updateDropdown',
       // eslint-disable-next-line no-undef
-      this.newListEventListener as EventListener
+      this.updateListener as EventListener
     );
 
     this.dataActionTask.run(['load']);
