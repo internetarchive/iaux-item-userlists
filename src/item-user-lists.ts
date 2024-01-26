@@ -55,10 +55,6 @@ export class ItemUserlists extends LitElement {
 
   // Events
 
-  optionClicked(option: userListOptionInterface): void {
-    option.selectedHandler?.(option);
-  }
-
   private updateCount(): void {
     this.dispatchEvent(
       new CustomEvent('updateDropdown', {
@@ -79,8 +75,12 @@ export class ItemUserlists extends LitElement {
 
   // Event handlers
 
+  private optionClicked(option: userListOptionInterface): void {
+    option.selectedHandler?.(option);
+  }
+
   private async onSelected(option: userListOptionInterface): Promise<void> {
-    // this.closeDropdown();
+    this.closeDropdown();
 
     const thisList =
       this.lists.find(list => option.id === list.id) || ({} as any);
@@ -161,7 +161,10 @@ export class ItemUserlists extends LitElement {
     const selected = isSelected ? 'selected' : undefined;
     const component = html`<button
       id="${id}"
-      @click=${() => this.optionClicked(option)}
+      @click=${(e: Event) => {
+        e.stopImmediatePropagation();
+        this.optionClicked(option);
+      }}
     >
       ${label}
     </button> `;
