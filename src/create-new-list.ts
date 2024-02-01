@@ -60,10 +60,14 @@ export async function createNewList(
           selectDropdown?.();
         }}
         @userListSaved=${async (e: CustomEvent<UserList>) => {
+          // eslint-disable-next-line no-console
+          console.log('userListSaved called ', e.target);
+
+          // Call ancestor update
+          await addCreated?.(e.detail.id);
+
           // Clear modal content
           closeModal();
-          // Call ancestor update
-          addCreated?.(e.detail.id);
         }}
       ></iaux-userlist-settings>
     `,

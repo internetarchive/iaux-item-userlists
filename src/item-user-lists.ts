@@ -109,6 +109,8 @@ export class ItemUserlists extends LitElement {
   }
 
   private async addCreatedList(createdId: string): Promise<void> {
+    // eslint-disable-next-line no-console
+    console.log('addCreatedList called ', createdId);
     await this.addMember(createdId);
     this.updateDropdown();
   }
