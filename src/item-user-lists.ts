@@ -90,11 +90,13 @@ export class ItemUserlists extends LitElement {
 
   // Event handlers
 
-  private optionClicked(option: userListOptionInterface): void {
+  private optionClicked = (option: userListOptionInterface): void => {
     option.selectedHandler?.(option);
-  }
+  };
 
-  private async onSelected(option: userListOptionInterface): Promise<void> {
+  private onSelected = async (
+    option: userListOptionInterface
+  ): Promise<void> => {
     this.selectDropdown();
 
     const thisList =
@@ -106,26 +108,26 @@ export class ItemUserlists extends LitElement {
       await this.addMember(thisList.id);
     }
     this.updateDropdown();
-  }
+  };
 
-  private async addCreatedList(createdId: string): Promise<void> {
+  private addCreatedList = async (createdId: string): Promise<void> => {
     // eslint-disable-next-line no-console
     console.log('addCreatedList called ', createdId);
     await this.addMember(createdId);
     this.updateDropdown();
-  }
+  };
 
   /**
    * Convenience method to create new list passing close/update event dispatchers
    */
-  private async createList(): Promise<void> {
+  private createList = (): void => {
     this.closeDropdown();
-    await createNewList(
+    createNewList(
       this.userListsService,
       this.selectDropdown,
       this.addCreatedList
     );
-  }
+  };
 
   // Options
 
