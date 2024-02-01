@@ -55,7 +55,7 @@ export class ItemUserlists extends LitElement {
 
   // Events
 
-  private closeDropdown(): void {
+  private closeDropdown = (): void => {
     // eslint-disable-next-line no-console
     console.log('closeDropdown called');
     this.dispatchEvent(
@@ -64,9 +64,9 @@ export class ItemUserlists extends LitElement {
         composed: true,
       })
     );
-  }
+  };
 
-  private selectDropdown(): void {
+  private selectDropdown = (): void => {
     // eslint-disable-next-line no-console
     console.log('selectDropdown called');
     this.dispatchEvent(
@@ -75,9 +75,9 @@ export class ItemUserlists extends LitElement {
         composed: true,
       })
     );
-  }
+  };
 
-  private updateDropdown(): void {
+  private updateDropdown = (): void => {
     // eslint-disable-next-line no-console
     console.log('updateDropdown called');
     this.dispatchEvent(
@@ -86,7 +86,7 @@ export class ItemUserlists extends LitElement {
         composed: true,
       })
     );
-  }
+  };
 
   // Event handlers
 
@@ -115,8 +115,8 @@ export class ItemUserlists extends LitElement {
     this.closeDropdown();
     await createNewList(
       this.userListsService,
-      () => this.selectDropdown(),
-      () => this.updateDropdown()
+      this.selectDropdown,
+      this.updateDropdown
     );
   }
 
