@@ -5,13 +5,13 @@ import type { UserListsServiceInterface } from '@internetarchive/ia-userlist-set
 
 /**
  * @param service {UserListsServiceInterface}
- * @param closeDropdown {Function} - Close the dropdown
- * @param updateCount {Function} -  Update selected count
+ * @param selectDropdown {Function} - Close the dropdown, await updateDropdown
+ * @param updateDropdown {Function} -  Update selected count from server
  */
 export async function createNewList(
   service?: UserListsServiceInterface,
-  closeDropdown?: Function | undefined,
-  updateCount?: Function | undefined
+  selectDropdown?: Function | undefined,
+  updateDropdown?: Function | undefined
 ): Promise<void> {
   let modalManager = document.querySelector('modal-manager') as ModalManager;
   if (!modalManager) {
@@ -54,13 +54,13 @@ export async function createNewList(
         @listModalClosed=${() => closeModal()}
         @userListSaving=${async () => {
           // Call ancestor close
-          closeDropdown?.();
+          selectDropdown?.();
         }}
         @userListSaved=${async () => {
           // Clear modal content
           closeModal();
           // Call ancestor update
-          updateCount?.();
+          updateDropdown?.();
         }}
       ></iaux-userlist-settings>
     `,

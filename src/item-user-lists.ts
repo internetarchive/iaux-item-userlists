@@ -55,22 +55,33 @@ export class ItemUserlists extends LitElement {
 
   // Events
 
-  private updateCount(): void {
+  private closeDropdown(): void {
     // eslint-disable-next-line no-console
-    console.log('updateCount called');
+    console.log('closeDropdown called');
     this.dispatchEvent(
-      new CustomEvent('updateDropdown', {
+      new CustomEvent('closeDropdown', {
         bubbles: true,
         composed: true,
       })
     );
   }
 
-  private closeDropdown(): void {
+  private selectDropdown(): void {
     // eslint-disable-next-line no-console
-    console.log('closeDropdown called');
+    console.log('selectDropdown called');
     this.dispatchEvent(
-      new CustomEvent('closeDropdown', {
+      new CustomEvent('selectDropdown', {
+        bubbles: true,
+        composed: true,
+      })
+    );
+  }
+
+  private updateDropdown(): void {
+    // eslint-disable-next-line no-console
+    console.log('updateDropdown called');
+    this.dispatchEvent(
+      new CustomEvent('updateDropdown', {
         bubbles: true,
         composed: true,
       })
@@ -84,7 +95,7 @@ export class ItemUserlists extends LitElement {
   }
 
   private async onSelected(option: userListOptionInterface): Promise<void> {
-    this.closeDropdown();
+    this.selectDropdown();
 
     const thisList =
       this.lists.find(list => option.id === list.id) || ({} as any);
@@ -94,17 +105,18 @@ export class ItemUserlists extends LitElement {
     } else {
       await this.addMember(thisList.id);
     }
-    this.updateCount();
+    this.updateDropdown();
   }
 
   /**
    * Convenience method to create new list passing close/update event dispatchers
    */
   private async createList(): Promise<void> {
+    this.closeDropdown();
     await createNewList(
       this.userListsService,
-      () => this.closeDropdown(),
-      () => this.updateCount()
+      () => this.selectDropdown(),
+      () => this.updateDropdown()
     );
   }
 
