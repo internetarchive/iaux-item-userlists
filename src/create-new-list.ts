@@ -1,17 +1,20 @@
 import { html } from 'lit';
 import { ModalConfig, ModalManager } from '@internetarchive/modal-manager';
 import '@internetarchive/ia-userlist-settings';
-import type { UserListsServiceInterface } from '@internetarchive/ia-userlist-settings';
+import type {
+  UserList,
+  UserListsServiceInterface,
+} from '@internetarchive/ia-userlist-settings';
 
 /**
  * @param service {UserListsServiceInterface}
  * @param selectDropdown {Function} - Close the dropdown, await updateDropdown
- * @param updateDropdown {Function} -  Update selected count from server
+ * @param addCreated {Function} -  Update selected count from server
  */
 export async function createNewList(
   service?: UserListsServiceInterface,
   selectDropdown?: Function | undefined,
-  updateDropdown?: Function | undefined
+  addCreated?: Function | undefined
 ): Promise<void> {
   let modalManager = document.querySelector('modal-manager') as ModalManager;
   if (!modalManager) {
@@ -53,14 +56,14 @@ export async function createNewList(
         .userListsService=${service}
         @listModalClosed=${() => closeModal()}
         @userListSaving=${async () => {
-          // Call ancestor close
+          // Call ancestor pending update
           selectDropdown?.();
         }}
-        @userListSaved=${async () => {
+        @userListSaved=${async (e: CustomEvent<UserList>) => {
           // Clear modal content
           closeModal();
           // Call ancestor update
-          updateDropdown?.();
+          addCreated?.(e.detail.id);
         }}
       ></iaux-userlist-settings>
     `,

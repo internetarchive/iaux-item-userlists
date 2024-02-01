@@ -108,6 +108,11 @@ export class ItemUserlists extends LitElement {
     this.updateDropdown();
   }
 
+  private async addCreatedList(createdId: string): Promise<void> {
+    await this.addMember(createdId);
+    this.updateDropdown();
+  }
+
   /**
    * Convenience method to create new list passing close/update event dispatchers
    */
@@ -116,7 +121,7 @@ export class ItemUserlists extends LitElement {
     await createNewList(
       this.userListsService,
       this.selectDropdown,
-      this.updateDropdown
+      this.addCreatedList
     );
   }
 
