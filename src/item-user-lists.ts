@@ -97,8 +97,15 @@ export class ItemUserlists extends LitElement {
     this.updateCount();
   }
 
+  /**
+   * Convenience method to create new list passing close/update event dispatchers
+   */
   private async createList(): Promise<void> {
-    await createNewList(this.userListsService, () => this.closeDropdown());
+    await createNewList(
+      this.userListsService,
+      () => this.closeDropdown(),
+      () => this.updateCount()
+    );
   }
 
   // Options
