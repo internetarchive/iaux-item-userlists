@@ -115,12 +115,12 @@ export class ItemUserlists extends LitElement {
   // Options
 
   // Convert property userList[] into options[]
-  private userListOptions(): userListOptionInterface[] {
+  private userListOptions = (): userListOptionInterface[] => {
     let options: userListOptionInterface[] = [];
     options = this.lists.map(list => this.listOption(list));
     options.push(this.newListOption);
     return options;
-  }
+  };
 
   // Convert UserList into option
   private listOption(list: UserList): userListOptionInterface {
