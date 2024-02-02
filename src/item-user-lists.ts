@@ -1,15 +1,5 @@
-/**
- * Creates list of li userlist elements.
- *
- * Events emitted:
- *   'selectDropdown'
- *     - option selected/unselected, returns selected count
- *   'closeDropdown'
- *     - have parent close the dropdown
- */
-import { html, css, LitElement, type TemplateResult } from 'lit';
+import { html, css, LitElement, nothing, type TemplateResult } from 'lit';
 import { property, customElement } from 'lit/decorators.js';
-import { ifDefined } from 'lit/directives/if-defined.js';
 
 import type {
   UserList,
@@ -20,21 +10,21 @@ import { createNewList } from './create-new-list';
 import plusIcon from './assets/icons/plusIcon';
 import checkIcon from './assets/icons/checkIcon';
 
-// type itemUserListStatusType = 'loading' | 'loaded' | 'error';
-
-type optionStatusType = 'loading' | 'selected' | 'unselected' | 'error';
+/**
+ * option interface for user lists
+ */
 interface userListOptionInterface {
-  selectedHandler?: Function;
-  label: string | TemplateResult;
   id: string;
+  label: string | TemplateResult;
   isSelected?: boolean;
-  status?: optionStatusType;
+  selectedHandler?: Function;
 }
 
 /**
- * Component to display a list of userlists
- * Used in ia-dropdown component
- * to have different type and behavior of options
+ * Render select-/unselect-many options <li></li> from @property {UserList[]}
+ *
+ * ia-dropdown <slot name="list">
+ * to have different type of options
  */
 @customElement('item-userlists')
 export class ItemUserlists extends LitElement {
@@ -56,8 +46,6 @@ export class ItemUserlists extends LitElement {
   // Events
 
   private closeDropdown = (): void => {
-    // eslint-disable-next-line no-console
-    console.log('closeDropdown called');
     this.dispatchEvent(
       new CustomEvent('closeDropdown', {
         bubbles: true,
@@ -67,8 +55,6 @@ export class ItemUserlists extends LitElement {
   };
 
   private selectDropdown = (): void => {
-    // eslint-disable-next-line no-console
-    console.log('selectDropdown called');
     this.dispatchEvent(
       new CustomEvent('selectDropdown', {
         bubbles: true,
@@ -78,8 +64,6 @@ export class ItemUserlists extends LitElement {
   };
 
   private updateDropdown = (): void => {
-    // eslint-disable-next-line no-console
-    console.log('updateDropdown called');
     this.dispatchEvent(
       new CustomEvent('updateDropdown', {
         bubbles: true,
@@ -90,7 +74,8 @@ export class ItemUserlists extends LitElement {
 
   // Event handlers
 
-  private optionClicked = (option: userListOptionInterface): void => {
+  private optionClicked = (e: Event, option: userListOptionInterface) => {
+    e.stopPropagation();
     option.selectedHandler?.(option);
   };
 
@@ -111,8 +96,6 @@ export class ItemUserlists extends LitElement {
   };
 
   private addCreatedList = async (createdId: string): Promise<void> => {
-    // eslint-disable-next-line no-console
-    console.log('addCreatedList called ', createdId);
     await this.addMember(createdId);
     this.updateDropdown();
   };
@@ -131,37 +114,35 @@ export class ItemUserlists extends LitElement {
 
   // Options
 
-  // Convert userlist data into a list of options
-  get userListOptions(): userListOptionInterface[] {
-    const options: userListOptionInterface[] = [];
+  // Convert property userList[] into options[]
+  private userListOptions(): userListOptionInterface[] {
+    let options: userListOptionInterface[] = [];
+    options = this.lists.map(list => this.listOption(list));
+    options.push(this.newListOption);
+    return options;
+  }
 
-    this.lists.forEach(list => {
-      const listOption = {
-        label: html` <ia-icon-label>
-          <div slot="icon" class="icon-size">
-            ${this.checkedIcon(list.item_is_member)}
-          </div>
-          <div class="truncate">${list.list_name}</div>
-        </ia-icon-label>`,
-        id: list.id,
-        isSelected: list.item_is_member,
-        selectedHandler: (option: userListOptionInterface) =>
-          this.onSelected(option),
-      } as userListOptionInterface;
-      options.push(listOption);
-    });
+  // Convert UserList into option
+  private listOption(list: UserList): userListOptionInterface {
+    return {
+      id: list.id,
+      label: this.labelTemplate(list),
+      isSelected: list.item_is_member,
+      selectedHandler: (option: userListOptionInterface) =>
+        this.onSelected(option),
+    } as userListOptionInterface;
+  }
 
-    const createNewListOption: userListOptionInterface = {
-      label: html`<ia-icon-label>
+  // Create new list option
+  get newListOption(): userListOptionInterface {
+    return {
+      id: 'create-new-list',
+      label: html` <ia-icon-label>
         <div slot="icon" class="icon-size">${plusIcon}</div>
         Create new list
       </ia-icon-label>`,
-      id: 'create-new-list',
       selectedHandler: () => this.createList(),
     };
-    options.push(createNewListOption);
-
-    return options;
   }
 
   // Data
@@ -176,36 +157,37 @@ export class ItemUserlists extends LitElement {
     await this.userListsService?.removeMemberFromList(listId, memberId);
   }
 
-  // UI Helpers
-  private checkedIcon(checked?: boolean): TemplateResult {
-    if (checked) {
-      return checkIcon;
-    }
-    return html``;
-  }
-
   // Templates
 
-  userListOptionTemplate(option: userListOptionInterface): TemplateResult {
-    const { label, isSelected, id } = option;
-    const selected = isSelected ? 'selected' : undefined;
-    const component = html`<button
-      id="${id}"
-      @click=${(e: Event) => {
-        e.stopPropagation();
-        this.optionClicked(option);
-      }}
-    >
-      ${label}
-    </button> `;
+  private labelTemplate(list: UserList): TemplateResult {
+    const { item_is_member: checked, list_name: name } = list;
 
-    return html`<li class="${ifDefined(selected)}">${component}</li>`;
+    return html`
+      <ia-icon-label>
+        <div slot="icon" class="icon-size">
+          ${checked ? checkIcon : nothing}
+        </div>
+        <div class="truncate">${name}</div>
+      </ia-icon-label>
+    `;
+  }
+
+  private optionTemplate(option: userListOptionInterface): TemplateResult {
+    return html` <li class="${option.isSelected ? 'selected' : ''}">
+      ${this.buttonTemplate(option)}
+    </li>`;
+  }
+
+  private buttonTemplate(option: userListOptionInterface): TemplateResult {
+    return html`
+      <button id="${option.id}" @click=${this.optionClicked}>
+        ${option.label}
+      </button>
+    `;
   }
 
   render() {
-    return html`
-      ${this.userListOptions.map(o => this.userListOptionTemplate(o))}
-    `;
+    return html` ${this.userListOptions().map(o => this.optionTemplate(o))} `;
   }
 
   static get styles() {

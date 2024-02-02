@@ -75,24 +75,18 @@ export class IaItemUserLists extends LitElement {
   // Event Handlers
 
   // Listen for simple close Dropdown event from item-userlists
-  closeListener = (e: Event): void => {
-    // eslint-disable-next-line no-console
-    console.log('closeListener called ', e.target);
+  closeListener = (): void => {
     this.dropdown.open = false;
   };
 
   // Listen for close and wait Dropdown event from item-userlists
-  selectListener = (e: Event): void => {
-    // eslint-disable-next-line no-console
-    console.log('selectListener called ', e.target);
+  selectListener = (): void => {
     this.dropdown.open = false;
     this.dataActionTask.run(['initial']);
   };
 
   // Listen for create List event from create-new-list
-  updateListener = (e: Event): void => {
-    // eslint-disable-next-line no-console
-    console.log('updateListener called ', e.target);
+  updateListener = (): void => {
     this.dataActionTask.run(['load']);
   };
 
@@ -104,23 +98,11 @@ export class IaItemUserLists extends LitElement {
     await new Promise(r => setTimeout(r, 0));
 
     // Setup event listeners
-    this.addEventListener(
-      'closeDropdown',
-      // eslint-disable-next-line no-undef
-      this.closeListener as EventListener
-    );
+    this.addEventListener('closeDropdown', this.closeListener);
 
-    this.addEventListener(
-      'selectDropdown',
-      // eslint-disable-next-line no-undef
-      this.selectListener as EventListener
-    );
+    this.addEventListener('selectDropdown', this.selectListener);
 
-    this.addEventListener(
-      'updateDropdown',
-      // eslint-disable-next-line no-undef
-      this.updateListener as EventListener
-    );
+    this.addEventListener('updateDropdown', this.updateListener);
 
     this.dataActionTask.run(['load']);
   }
