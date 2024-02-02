@@ -180,7 +180,10 @@ export class ItemUserlists extends LitElement {
 
   private buttonTemplate(option: userListOptionInterface): TemplateResult {
     return html`
-      <button id="${option.id}" @click=${this.optionClicked}>
+      <button
+        id="${option.id}"
+        @click=${(e: Event) => this.optionClicked(e, option)}
+      >
         ${option.label}
       </button>
     `;
