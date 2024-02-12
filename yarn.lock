@@ -238,6 +238,13 @@
     "@internetarchive/user-service" "^0.1.3"
     lit "^2.8.0"
 
+"@internetarchive/icon-close@1.3.7-alpha.0":
+  version "1.3.7-alpha.0"
+  resolved "https://registry.yarnpkg.com/@internetarchive/icon-close/-/icon-close-1.3.7-alpha.0.tgz#4fdb31e97c796e0647c5e5f0cbdafa28f5cca1db"
+  integrity sha512-jpYFSfciL+9WrcQr9YkSXwTmiNLWG0F4ADyIEdZfKZ2PR4NVorBY5X6RmoO4m5xF5022HxQb802yX8O2KxvLFQ==
+  dependencies:
+    lit "^2.8.0"
+
 "@internetarchive/icon-close@^1.3.2":
   version "1.3.4"
   resolved "https://registry.npmjs.org/@internetarchive/icon-close/-/icon-close-1.3.4.tgz"
@@ -266,6 +273,18 @@
   dependencies:
     "@internetarchive/ia-activity-indicator" "^0.0.4"
     "@internetarchive/icon-close" "^1.3.2"
+    "@internetarchive/icon-ia-logo" "^1.3.2"
+    "@internetarchive/icon-user" "^1.3.2"
+    lit "^2.8.0"
+    throttle-debounce "^5.0.0"
+
+"@internetarchive/modal-manager@0.3.1-alpha.3":
+  version "0.3.1-alpha.3"
+  resolved "https://registry.yarnpkg.com/@internetarchive/modal-manager/-/modal-manager-0.3.1-alpha.3.tgz#b5fa6f0bb3d7636be2d64a58727ec4ca219b8f50"
+  integrity sha512-Kx7kQxKPAlvQtLw8au3kpZGvWRQH33fwhaNoW1SBd1kFBcjYibU+dCfCTO+BA2fFFGnbFf8iw6CxtGdR2e459g==
+  dependencies:
+    "@internetarchive/ia-activity-indicator" "^0.0.4"
+    "@internetarchive/icon-close" "1.3.7-alpha.0"
     "@internetarchive/icon-ia-logo" "^1.3.2"
     "@internetarchive/icon-user" "^1.3.2"
     lit "^2.8.0"
