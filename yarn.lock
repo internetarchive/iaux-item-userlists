@@ -227,7 +227,7 @@
   dependencies:
     lit "^2.8.0"
 
-"@internetarchive/ia-userlist-settings@^1.0.13-alpha.7":
+"@internetarchive/ia-userlist-settings@^1.0.13-alpha.8":
   version "1.0.13-alpha3"
   resolved "https://registry.yarnpkg.com/@internetarchive/ia-userlist-settings/-/ia-userlist-settings-1.0.13-alpha3.tgz#a45f9fc111e5ca59b549c907c6696b537260de12"
   integrity sha512-F52ufkfF6zVi7TYuoC8d5rPyCx7VQPi68Dyx93ONE3fvZ2xdihdYzaMXclMs4/oxiSGQjmCOVfOZuzhPSq8s1A==
@@ -260,13 +260,12 @@
   dependencies:
     lit "^2.0.2"
 
-"@internetarchive/modal-manager@0.3.1-alpha.4":
-  version "0.3.1-alpha.4"
-  resolved "https://registry.yarnpkg.com/@internetarchive/modal-manager/-/modal-manager-0.3.1-alpha.4.tgz#5d2ffae2205834ce3a4d2d15c995e195bd4b216b"
-  integrity sha512-5qf6adgWDzst+C6JI6S/2IRvzYeka4TnRfC0/1Rj9jc+KZbyIn6AiD1LlZKUCrpUFBLetE75VcsbGS+XFsUuIQ==
+"@internetarchive/modal-manager@0.3.1-alpha.5":
+  version "0.3.1-alpha.5"
+  resolved "https://registry.yarnpkg.com/@internetarchive/modal-manager/-/modal-manager-0.3.1-alpha.5.tgz#aade13b11bb8d563e881b2123d5d9ccd6bcb0bf7"
+  integrity sha512-zETn4BRy/46zaimUuHdFT6fkGVep5IttrtnGYlBMOTmW6rHEiQ5vCpzSsJLjpROJhKrLWY2N4RdRDc5sgX3QkQ==
   dependencies:
     "@internetarchive/ia-activity-indicator" "^0.0.4"
-    "@internetarchive/icon-close" "^1.3.2"
     "@internetarchive/icon-ia-logo" "^1.3.2"
     "@internetarchive/icon-user" "^1.3.2"
     lit "^2.8.0"
