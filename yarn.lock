@@ -227,10 +227,10 @@
   dependencies:
     lit "^2.8.0"
 
-"@internetarchive/ia-userlist-settings@^1.0.13-alpha.9":
-  version "1.0.13-alpha3"
-  resolved "https://registry.yarnpkg.com/@internetarchive/ia-userlist-settings/-/ia-userlist-settings-1.0.13-alpha3.tgz#a45f9fc111e5ca59b549c907c6696b537260de12"
-  integrity sha512-F52ufkfF6zVi7TYuoC8d5rPyCx7VQPi68Dyx93ONE3fvZ2xdihdYzaMXclMs4/oxiSGQjmCOVfOZuzhPSq8s1A==
+"@internetarchive/ia-userlist-settings@^1.0.13-alpha.10":
+  version "1.0.13-alpha4"
+  resolved "https://registry.yarnpkg.com/@internetarchive/ia-userlist-settings/-/ia-userlist-settings-1.0.13-alpha4.tgz#820dcab0fea2e7a62de379cf7ab0740a47e3c7f4"
+  integrity sha512-i9f5jlvFu8eqCllwKJLZM3ARDB4+VfMA/j1UjOQfz+9sh2JBsl9qElmEpJZfUdD+fGWnk0NQibG8azNfBCii+A==
   dependencies:
     "@internetarchive/modal-manager" "^0.2.12"
     "@internetarchive/result-type" "^0.0.1"
@@ -260,16 +260,16 @@
   dependencies:
     lit "^2.0.2"
 
-"@internetarchive/modal-manager@0.3.1-alpha.6":
-  version "0.3.1-alpha.6"
-  resolved "https://registry.yarnpkg.com/@internetarchive/modal-manager/-/modal-manager-0.3.1-alpha.6.tgz#b4466ecc423cbbf0616fa32635afbcbd0e03d19c"
-  integrity sha512-tKkdtBWDssfl0/nyVZWfufvGRL8p5l7uF3293U8lQuVvqJuvV4q4qvlC7/8GjAvhsRQ0iRoCxSnuTMvODE1+/A==
+"@internetarchive/modal-manager@0.3.3-alpha.0":
+  version "0.3.3-alpha.0"
+  resolved "https://registry.yarnpkg.com/@internetarchive/modal-manager/-/modal-manager-0.3.3-alpha.0.tgz#7fea22f00e06c09908c3608261d40c10d750b4c7"
+  integrity sha512-ujAsrMAghRWHkGYwwevP4hlse7ykpaOASgpTkvnaLRiHwSxvRbM+jqld6V2Sx4Ribn/3nQp4ipSrybUlLq9ZSQ==
   dependencies:
     "@internetarchive/ia-activity-indicator" "^0.0.4"
     "@internetarchive/icon-close" "^1.3.4"
     "@internetarchive/icon-ia-logo" "^1.3.4"
     "@internetarchive/icon-user" "^1.3.4"
-    lit "^2.8.0"
+    lit "^2.2.2"
     throttle-debounce "^5.0.0"
 
 "@internetarchive/modal-manager@^0.2.12":
