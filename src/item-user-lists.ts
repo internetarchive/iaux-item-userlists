@@ -26,8 +26,8 @@ interface userListOptionInterface {
  * ia-dropdown <slot name="list">
  * to have different type of options
  */
-@customElement('item-userlists')
-export class ItemUserlists extends LitElement {
+@customElement('item-user-lists')
+export class ItemUserLists extends LitElement {
   /**
    * Item identifier
    */
@@ -180,10 +180,7 @@ export class ItemUserlists extends LitElement {
 
   private buttonTemplate(option: userListOptionInterface): TemplateResult {
     return html`
-      <button
-        id="${option.id}"
-        @click=${(e: Event) => this.optionClicked(e, option)}
-      >
+      <button @click=${(e: Event) => this.optionClicked(e, option)}>
         ${option.label}
       </button>
     `;

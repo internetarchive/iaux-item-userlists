@@ -58,11 +58,7 @@ export class IaItemUserLists extends LitElement {
   // Events
 
   async dropdownClicked(e: Event): Promise<void> {
-    // eslint-disable-next-line no-console
-    console.log('dropdownClicked called ', e.target);
-    // if (!this.isFetched) {
-    //   return;
-    // }
+    e.preventDefault();
     if (!this.dropdown.open) {
       // get userlist data
       await this.dataActionTask.run(['load']);
@@ -195,17 +191,14 @@ export class IaItemUserLists extends LitElement {
   }
 
   get itemUserListsTemplate(): TemplateResult {
-    // if (!this.isFetched) {
-    //   return html``;
-    // }
     return html`
-      <item-userlists
+      <item-user-lists
         slot="list"
         .itemId=${this.item}
         .lists=${this.userListData}
         .userListsService=${this.userListsService}
       >
-      </item-userlists>
+      </item-user-lists>
     `;
   }
 
