@@ -9,11 +9,14 @@ import { FetchHandler } from './fetch-handler';
 import { userListServiceUrl } from './user-lists-service-url';
 
 export type { UserListsServiceInterface, UserList };
-export function createUserListsService(): UserListsService {
-  return new UserListsService({
-    fetchHandler: new FetchHandler(),
-    searchService: SearchService.default,
-    userService: new UserService(),
-    baseUrl: userListServiceUrl,
-  });
-}
+// UserListsService creator (for easier testing)
+export const UserListsServiceFactory = {
+  create(): UserListsService {
+    return new UserListsService({
+      fetchHandler: new FetchHandler(),
+      searchService: SearchService.default,
+      userService: new UserService(),
+      baseUrl: userListServiceUrl,
+    });
+  },
+};

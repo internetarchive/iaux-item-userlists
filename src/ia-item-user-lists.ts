@@ -8,7 +8,7 @@ import type { IaDropdown } from '@internetarchive/ia-dropdown';
 import {
   type UserListsServiceInterface,
   type UserList,
-  createUserListsService,
+  UserListsServiceFactory,
 } from './user-lists-service';
 
 import '@internetarchive/ia-dropdown';
@@ -49,7 +49,7 @@ export class IaItemUserLists extends LitElement {
 
   // UserListsService
   @state() private userListsService: UserListsServiceInterface =
-    createUserListsService();
+    UserListsServiceFactory.create();
 
   @query('ia-dropdown') private dropdown!: IaDropdown;
 
