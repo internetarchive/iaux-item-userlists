@@ -89,6 +89,22 @@ export class IaItemUserLists extends LitElement {
       // eslint-disable-next-line no-undef
       createEventListener as EventListener
     );
+
+    // Listens for `iaux-userlist-settings` errors from create-new-list
+    const listsSettingsErrorEventListener = (e: CustomEvent) => {
+      // eslint-disable-next-line no-console
+      console.log('userListError listener', e.detail);
+      this.dispatchEvent(
+        new CustomEvent('userListSettingsError', {
+          detail: { ...e.detail },
+        })
+      );
+    };
+    window.addEventListener(
+      'userListError',
+      // eslint-disable-next-line no-undef
+      listsSettingsErrorEventListener as EventListener
+    );
   }
 
   connectedCallback(): void {
@@ -216,15 +232,23 @@ export class IaItemUserLists extends LitElement {
               },
             })
           )}
-        @listCreated=${(e: CustomEvent) =>
+        @userListError=${(e: CustomEvent) => {
           this.dispatchEvent(
-            new CustomEvent('listCreated', {
+            new CustomEvent('userListError', {
+              detail: { ...e.detail },
+            })
+          );
+        }}
+        @listCreateOpen=${(e: CustomEvent) => {
+          this.dispatchEvent(
+            new CustomEvent('listCreateOpen', {
               detail: {
                 ...e.detail,
                 total_lists: this.selectedCount,
               },
             })
-          )}
+          );
+        }}
       >
       </item-userlists>
     `;

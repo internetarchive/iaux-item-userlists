@@ -49,6 +49,19 @@ export async function createNewList(
         }}
         .userListsService=${service}
         @listModalClosed=${() => closeModal()}
+        @userListError=${(e: CustomEvent) => {
+          const errorMsg =
+            e.detail.error?.reason ??
+            e.detail.error?.message ??
+            'Unknown error from iaux-userlist-settings';
+          window.dispatchEvent(
+            new CustomEvent('userListError', {
+              detail: { error: errorMsg },
+              bubbles: true,
+              composed: true,
+            })
+          );
+        }}
         @userListSaved=${async (e: CustomEvent<UserList>) => {
           window.dispatchEvent(
             new CustomEvent('createUserList', {

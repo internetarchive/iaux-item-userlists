@@ -145,7 +145,7 @@ export class ItemUserlists extends LitElement {
   private async createList(): Promise<void> {
     await createNewList(this.userListsService, () => this.closeDropdown());
     this.dispatchEvent(
-      new CustomEvent('listCreated', {
+      new CustomEvent('listCreateOpen', {
         detail: { totalLists: this.lists.length },
       })
     );
