@@ -144,16 +144,29 @@ export class ItemUserlists extends LitElement {
 
   private async createList(): Promise<void> {
     await createNewList(this.userListsService, () => this.closeDropdown());
+    this.dispatchEvent(
+      new CustomEvent('listCreated', {
+        detail: { totalLists: this.lists.length },
+      })
+    );
   }
 
   private async addMember(listId: string): Promise<void> {
     await this.userListsService?.addMemberToList(listId, {
       identifier: this.itemId,
     });
+    this.dispatchEvent(
+      new CustomEvent('addMember', { detail: { listId, itemId: this.itemId } })
+    );
   }
 
   private async removeMember(listId: string, memberId: string): Promise<void> {
     await this.userListsService?.removeMemberFromList(listId, memberId);
+    this.dispatchEvent(
+      new CustomEvent('removeMember', {
+        detail: { listId, itemId: this.itemId },
+      })
+    );
   }
 
   private async onSelected(option: userListOptionInterface): Promise<void> {

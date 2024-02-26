@@ -94,17 +94,29 @@ export class IaItemUserLists extends LitElement {
   connectedCallback(): void {
     super.connectedCallback?.();
     // Set userlist data
-    this.initUserLists();
+    this.initUserLists('onload');
   }
 
   private async addMember(listId: string): Promise<void> {
     await this.userListsService.addMemberToList(listId, {
       identifier: this.item,
     });
+    this.dispatchEvent(
+      new CustomEvent('memberAdded', {
+        detail: {
+          listId,
+          itemId: this.item,
+          total_items: this.selectedCount,
+        },
+      })
+    );
     await this.initUserLists();
   }
 
-  private async initUserLists(): Promise<void> {
+  private async initUserLists(
+    context: 'onload' | 'reload' = 'reload'
+  ): Promise<void> {
+    const currentUserListData = this.userListData;
     // Load userlist data from API
     // eslint-disable-next-line no-console
     console.log('fetching userlist data for item', this.item);
@@ -124,6 +136,19 @@ export class IaItemUserLists extends LitElement {
     } else {
       // eslint-disable-next-line no-console
       console.error('Error loading userlist data', result.error);
+    }
+
+    if (context === 'onload') {
+      this.dispatchEvent(
+        new CustomEvent('userItemListDataReceived', {
+          detail: {
+            listCount: this.userListData.length,
+            prevListCount: currentUserListData.length,
+            itemId: this.item,
+            itemInListsCount: this.selectedCount,
+          },
+        })
+      );
     }
   }
 
@@ -173,6 +198,33 @@ export class IaItemUserLists extends LitElement {
         .itemId=${this.item}
         .lists=${this.userListData}
         .userListsService=${this.userListsService}
+        @addMember=${(e: CustomEvent) =>
+          this.dispatchEvent(
+            new CustomEvent('memberAdded', {
+              detail: {
+                ...e.detail,
+                total_items: this.selectedCount,
+              },
+            })
+          )}
+        @removeMember=${(e: CustomEvent) =>
+          this.dispatchEvent(
+            new CustomEvent('memberRemoved', {
+              detail: {
+                ...e.detail,
+                total_items: this.selectedCount,
+              },
+            })
+          )}
+        @listCreated=${(e: CustomEvent) =>
+          this.dispatchEvent(
+            new CustomEvent('listCreated', {
+              detail: {
+                ...e.detail,
+                total_lists: this.selectedCount,
+              },
+            })
+          )}
       >
       </item-userlists>
     `;
