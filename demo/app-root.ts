@@ -9,7 +9,19 @@ export class AppRoot extends LitElement {
   render() {
     return html`
       <div>
-        <ia-item-user-lists item="goody"></ia-item-user-lists>
+        <ia-item-user-lists
+          @memberAdded=${(e: CustomEvent) =>
+            console.log('memberAdded', e.detail)}
+          @memberRemoved=${(e: CustomEvent) =>
+            console.log('memberRemoved', e.detail)}
+          @listCreateOpen=${(e: CustomEvent) =>
+            console.log('listCreateOpen', e.detail)}
+          @userItemListDataReceived=${(e: CustomEvent) =>
+            console.log('userItemListDataReceived', e.detail)}
+          @closeDropdown=${() => console.log('closeDropdown')}
+          @selectDropdown=${(e: CustomEvent) =>
+            console.log('selectDropdown', e.detail)}
+        ></ia-item-user-lists>
       </div>
     `;
   }

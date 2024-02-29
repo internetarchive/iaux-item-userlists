@@ -97,6 +97,11 @@ export class ItemUserLists extends LitElement {
 
   private addCreatedList = async (createdId: string): Promise<void> => {
     await this.addMember(createdId);
+    this.dispatchEvent(
+      new CustomEvent('listCreated', {
+        detail: { totalLists: this.lists.length },
+      })
+    );
     this.updateDropdown();
   };
 
@@ -151,10 +156,18 @@ export class ItemUserLists extends LitElement {
     await this.userListsService?.addMemberToList(listId, {
       identifier: this.itemId,
     });
+    this.dispatchEvent(
+      new CustomEvent('addMember', { detail: { listId, itemId: this.itemId } })
+    );
   }
 
   private async removeMember(listId: string, memberId: string): Promise<void> {
     await this.userListsService?.removeMemberFromList(listId, memberId);
+    this.dispatchEvent(
+      new CustomEvent('removeMember', {
+        detail: { listId, itemId: this.itemId },
+      })
+    );
   }
 
   // Templates

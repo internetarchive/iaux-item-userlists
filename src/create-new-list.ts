@@ -55,6 +55,15 @@ export async function createNewList(
         }}
         .userListsService=${service}
         @listModalClosed=${() => closeModal()}
+        @userListError=${(e: CustomEvent) => {
+          const errorMsg =
+            e.detail.error?.reason ??
+            e.detail.error?.message ??
+            'Unknown error from iaux-userlist-settings';
+          // send error so sentry can catch it
+          // eslint-disable-next-line no-console
+          console?.error('userListSettingsError', errorMsg);
+        }}
         @userListSaving=${async () => {
           // Call ancestor pending update
           selectDropdown?.();

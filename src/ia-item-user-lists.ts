@@ -100,7 +100,15 @@ export class IaItemUserLists extends LitElement {
 
     this.addEventListener('updateDropdown', this.updateListener);
 
-    this.dataActionTask.run(['load']);
+    this.dataActionTask.run(['load'])?.then(() => {
+      this.dispatchEvent(
+        new CustomEvent('userItemListDataReceived', {
+          detail: {
+            total_lists: this.userListData.length,
+          },
+        })
+      );
+    });
   }
 
   // Tasks
@@ -197,6 +205,41 @@ export class IaItemUserLists extends LitElement {
         .itemId=${this.item}
         .lists=${this.userListData}
         .userListsService=${this.userListsService}
+        @addMember=${(e: CustomEvent) =>
+          this.dispatchEvent(
+            new CustomEvent('memberAdded', {
+              detail: {
+                ...e.detail,
+                total_items: this.selectedCount,
+              },
+            })
+          )}
+        @removeMember=${(e: CustomEvent) =>
+          this.dispatchEvent(
+            new CustomEvent('memberRemoved', {
+              detail: {
+                ...e.detail,
+                total_items: this.selectedCount,
+              },
+            })
+          )}
+        @userListError=${(e: CustomEvent) => {
+          this.dispatchEvent(
+            new CustomEvent('userListError', {
+              detail: { ...e.detail },
+            })
+          );
+        }}
+        @listCreated=${(e: CustomEvent) => {
+          this.dispatchEvent(
+            new CustomEvent('listCreated', {
+              detail: {
+                ...e.detail,
+                total_lists: this.selectedCount,
+              },
+            })
+          );
+        }}
       >
       </item-user-lists>
     `;
