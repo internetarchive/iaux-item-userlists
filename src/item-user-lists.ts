@@ -150,6 +150,8 @@ export class ItemUserLists extends LitElement {
     };
   }
 
+  // Data
+
   private async addMember(listId: string): Promise<void> {
     await this.userListsService?.addMemberToList(listId, {
       identifier: this.itemId,

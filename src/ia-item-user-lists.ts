@@ -56,6 +56,7 @@ export class IaItemUserLists extends LitElement {
   private listID: string = '';
 
   // Events
+
   async dropdownClicked(e: Event): Promise<void> {
     e.preventDefault();
     if (!this.dropdown.open) {
@@ -108,8 +109,6 @@ export class IaItemUserLists extends LitElement {
         })
       );
     });
-
-    // userItemListDataReceived
   }
 
   // Tasks
