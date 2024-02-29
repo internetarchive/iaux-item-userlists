@@ -1159,7 +1159,7 @@ xmlns="http://www.w3.org/2000/svg"
         @addMember=${e=>this.dispatchEvent(new CustomEvent("memberAdded",{detail:{...e.detail,total_items:this.selectedCount}}))}
         @removeMember=${e=>this.dispatchEvent(new CustomEvent("memberRemoved",{detail:{...e.detail,total_items:this.selectedCount}}))}
         @userListError=${e=>{this.dispatchEvent(new CustomEvent("userListError",{detail:{...e.detail}}))}}
-        @listCreateOpen=${e=>{this.dispatchEvent(new CustomEvent("listCreateOpen",{detail:{...e.detail,total_lists:this.selectedCount}}))}}
+        @listCreated=${e=>{this.dispatchEvent(new CustomEvent("listCreated",{detail:{...e.detail,total_lists:this.selectedCount}}))}}
       >
       </item-user-lists>
     `}render(){return w`
