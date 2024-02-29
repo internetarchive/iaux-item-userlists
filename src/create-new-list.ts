@@ -6,9 +6,15 @@ import type {
   UserListsServiceInterface,
 } from '@internetarchive/ia-userlist-settings';
 
+/**
+ * @param service {UserListsServiceInterface}
+ * @param selectDropdown {Function} - Close the dropdown, await updateDropdown
+ * @param addCreated {Function} -  Update selected count from server
+ */
 export async function createNewList(
   service?: UserListsServiceInterface,
-  closeDropdown?: Function | undefined
+  selectDropdown?: Function | undefined,
+  addCreated?: Function | undefined
 ): Promise<void> {
   let modalManager = document.querySelector('modal-manager') as ModalManager;
   if (!modalManager) {
@@ -54,25 +60,20 @@ export async function createNewList(
             e.detail.error?.reason ??
             e.detail.error?.message ??
             'Unknown error from iaux-userlist-settings';
-          window.dispatchEvent(
-            new CustomEvent('userListError', {
-              detail: { error: errorMsg },
-              bubbles: true,
-              composed: true,
-            })
-          );
+          // send error so sentry can catch it
+          // eslint-disable-next-line no-console
+          console?.error('userListSettingsError', errorMsg);
+        }}
+        @userListSaving=${async () => {
+          // Call ancestor pending update
+          selectDropdown?.();
         }}
         @userListSaved=${async (e: CustomEvent<UserList>) => {
-          window.dispatchEvent(
-            new CustomEvent('createUserList', {
-              detail: { created: e.detail },
-              bubbles: true,
-              composed: true,
-            })
-          );
+          // Call ancestor update
+          await addCreated?.(e.detail.id);
+
           // Clear modal content
           closeModal();
-          closeDropdown?.();
         }}
       ></iaux-userlist-settings>
     `,

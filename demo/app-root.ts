@@ -4,6 +4,8 @@ import '../src/ia-item-user-lists';
 
 @customElement('app-root')
 export class AppRoot extends LitElement {
+  // NOTE: we don't have a user to validate for the service
+  // so we expect pending, then error.
   render() {
     return html`
       <div>
@@ -19,8 +21,6 @@ export class AppRoot extends LitElement {
           @closeDropdown=${() => console.log('closeDropdown')}
           @selectDropdown=${(e: CustomEvent) =>
             console.log('selectDropdown', e.detail)}
-          @userListError=${(e: CustomEvent) =>
-            console.log('userListError', { ...e.detail })}
         ></ia-item-user-lists>
       </div>
     `;
