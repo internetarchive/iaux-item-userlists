@@ -230,9 +230,9 @@ export class IaItemUserLists extends LitElement {
             })
           );
         }}
-        @listCreateOpen=${(e: CustomEvent) => {
+        @listCreated=${(e: CustomEvent) => {
           this.dispatchEvent(
-            new CustomEvent('listCreateOpen', {
+            new CustomEvent('listCreated', {
               detail: {
                 ...e.detail,
                 total_lists: this.selectedCount,
