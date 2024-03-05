@@ -227,10 +227,10 @@
   dependencies:
     lit "^2.8.0"
 
-"@internetarchive/ia-userlist-settings@1.0.18-alpha.0":
-  version "1.0.18-alpha.0"
-  resolved "https://registry.yarnpkg.com/@internetarchive/ia-userlist-settings/-/ia-userlist-settings-1.0.18-alpha.0.tgz#bc6fdcc5a1b9a2b91ce078dec97537ea5b45d66d"
-  integrity sha512-bDH0o3UoYgVjOj8xK5YNlF00pIdpQNN0CnhUYrzXOpq1XVEKrtvAoyU1+P9l9d4pBqmIprWMvIsCauwLTEsJgw==
+"@internetarchive/ia-userlist-settings@1.0.18-alpha.1":
+  version "1.0.18-alpha.1"
+  resolved "https://registry.yarnpkg.com/@internetarchive/ia-userlist-settings/-/ia-userlist-settings-1.0.18-alpha.1.tgz#0a2940882a56ffbf70baf9f11a3f35901f24e367"
+  integrity sha512-Vu54JPy2KkbN5Z2yChOyCfiB6emkvCFMTjr1xNFZbL9vEUhR9wuT1MvEGVwcsyeulMEdhuLbOyHmvrrSPzamgw==
   dependencies:
     "@internetarchive/modal-manager" "1.0.3-alpha.0"
     "@internetarchive/result-type" "^0.0.1"
