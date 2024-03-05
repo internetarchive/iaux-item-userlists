@@ -11,12 +11,13 @@ import { userListServiceUrl } from './user-lists-service-url';
 export type { UserListsServiceInterface, UserList };
 // UserListsService creator (for easier testing)
 export const UserListsServiceFactory = {
-  create(): UserListsService {
+  create(options: Record<string, unknown>): UserListsService {
+    const { serviceUrl } = options;
     return new UserListsService({
       fetchHandler: new FetchHandler(),
       searchService: SearchService.default,
       userService: new UserService(),
-      baseUrl: userListServiceUrl,
+      baseUrl: `${serviceUrl ?? userListServiceUrl}`,
     });
   },
 };

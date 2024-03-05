@@ -22,6 +22,9 @@ type DataAction = 'initial' | 'load';
 
 @customElement('ia-item-user-lists')
 export class IaItemUserLists extends LitElement {
+  // Base host for user lists service
+  @property({ type: String }) baseHost = 'archive.org';
+
   // Item identifier
   @property({ type: String }) item = '';
 
@@ -49,7 +52,7 @@ export class IaItemUserLists extends LitElement {
 
   // UserListsService
   @state() private userListsService: UserListsServiceInterface =
-    UserListsServiceFactory.create();
+    UserListsServiceFactory.create({ serviceUrl: this.baseHost });
 
   @query('ia-dropdown') private dropdown!: IaDropdown;
 
