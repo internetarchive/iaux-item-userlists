@@ -77,4 +77,18 @@ describe('IAItemUserlists', () => {
     const label = el.shadowRoot?.querySelector('div.label')?.innerHTML;
     expect(label).to.contain('Load Error');
   });
+
+  it('propagates `baseHost` down to service', async () => {
+    const el = await fixture<IaItemUserLists>(
+      html`<ia-item-user-lists item="goody"></ia-item-user-lists>`
+    );
+
+    const reloadServiceSpy = sinon.spy(el, 'reloadService');
+
+    el.baseHost = 'example.com';
+
+    await el.updateComplete;
+
+    expect(reloadServiceSpy.callCount).to.equal(1);
+  });
 });
