@@ -1,7 +1,14 @@
 /**
  * Button and dropdown for adding item to user lists
  */
-import { html, css, LitElement, nothing, type TemplateResult } from 'lit';
+import {
+  html,
+  css,
+  LitElement,
+  nothing,
+  type TemplateResult,
+  PropertyValues,
+} from 'lit';
 import { property, customElement, state, query } from 'lit/decorators.js';
 import { Task, TaskStatus, initialState } from '@lit/task';
 import type { IaDropdown } from '@internetarchive/ia-dropdown';
@@ -112,6 +119,21 @@ export class IaItemUserLists extends LitElement {
         })
       );
     });
+  }
+
+  updated(changed: PropertyValues): void {
+    if (changed.has('baseHost') && this.baseHost) {
+      if (changed.get('baseHost')) {
+        this.reloadService();
+      }
+    }
+  }
+
+  reloadService(): void {
+    this.userListsService = UserListsServiceFactory.create({
+      serviceUrl: this.baseHost,
+    });
+    this.dataActionTask.run(['load']);
   }
 
   // Tasks

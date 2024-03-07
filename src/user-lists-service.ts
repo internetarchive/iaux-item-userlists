@@ -12,12 +12,15 @@ export type { UserListsServiceInterface, UserList };
 // UserListsService creator (for easier testing)
 export const UserListsServiceFactory = {
   create(options: Record<string, unknown>): UserListsService {
-    const { serviceUrl } = options;
+    const { serviceUrl, serviceProtocol = 'https://' } = options;
+    const baseUrl = serviceUrl
+      ? `${serviceProtocol}${serviceUrl}`
+      : userListServiceUrl;
     return new UserListsService({
       fetchHandler: new FetchHandler(),
       searchService: SearchService.default,
       userService: new UserService(),
-      baseUrl: `${serviceUrl ?? userListServiceUrl}`,
+      baseUrl,
     });
   },
 };
