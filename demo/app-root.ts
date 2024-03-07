@@ -38,6 +38,8 @@ export class AppRoot extends LitElement {
           <form @submit=${this.changeBaseHost}>
             <label>
               <span>Change Base Host</span>
+              <br />
+              <span>https://</span>
               <input />
             </label>
           </form>
