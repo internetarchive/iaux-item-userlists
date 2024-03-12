@@ -1,7 +1,14 @@
 /**
  * Button and dropdown for adding item to user lists
  */
-import { html, css, LitElement, nothing, type TemplateResult } from 'lit';
+import {
+  html,
+  css,
+  LitElement,
+  nothing,
+  type TemplateResult,
+  PropertyValues,
+} from 'lit';
 import { property, customElement, state, query } from 'lit/decorators.js';
 import { Task, TaskStatus, initialState } from '@lit/task';
 import type { IaDropdown } from '@internetarchive/ia-dropdown';
@@ -22,6 +29,9 @@ type DataAction = 'initial' | 'load';
 
 @customElement('ia-item-user-lists')
 export class IaItemUserLists extends LitElement {
+  // Base host for user lists service
+  @property({ type: String }) baseHost = 'archive.org';
+
   // Item identifier
   @property({ type: String }) item = '';
 
@@ -49,7 +59,7 @@ export class IaItemUserLists extends LitElement {
 
   // UserListsService
   @state() private userListsService: UserListsServiceInterface =
-    UserListsServiceFactory.create();
+    UserListsServiceFactory.create({ serviceUrl: this.baseHost });
 
   @query('ia-dropdown') private dropdown!: IaDropdown;
 
@@ -109,6 +119,21 @@ export class IaItemUserLists extends LitElement {
         })
       );
     });
+  }
+
+  updated(changed: PropertyValues): void {
+    if (changed.has('baseHost') && this.baseHost) {
+      if (changed.get('baseHost')) {
+        this.reloadService();
+      }
+    }
+  }
+
+  reloadService(): void {
+    this.userListsService = UserListsServiceFactory.create({
+      serviceUrl: this.baseHost,
+    });
+    this.dataActionTask.run(['load']);
   }
 
   // Tasks
