@@ -341,6 +341,8 @@ export class IaItemUserLists extends LitElement {
 
     .action-bar-text {
       font-weight: normal;
+      -webkit-user-select: none;
+      user-select: none;
       --iconLabelFlexDirection: column;
       --iconLabelGutterWidth: 0;
       --iconWidth: 16px;
