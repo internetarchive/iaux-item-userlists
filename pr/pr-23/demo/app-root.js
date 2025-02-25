@@ -1203,7 +1203,6 @@ xmlns="http://www.w3.org/2000/svg"
     .icon-img {
       height: 16px;
       width: 16px;
-      padding-bottom: 3px;
     }
 
     div.list-title {
@@ -1231,8 +1230,10 @@ xmlns="http://www.w3.org/2000/svg"
       --dropdownMainButtonBorderRadius: 3px;
     }
 
+    /* line-height extracted from PB */
     .action-bar-text {
       font-size: 14px;
+      line-height: 1.42857143;
       font-weight: normal;
       -webkit-user-select: none;
       user-select: none;
@@ -1242,23 +1243,23 @@ xmlns="http://www.w3.org/2000/svg"
     }
 
     /* inside button.click-main, classname from details.inc buttons */
-    @media (min-width: 985px) {
+    @media (min-width: 992px) {
+      .action-bar-text .label {
+        padding-top: 3px;
+      }
       .action-bar-text .label-sm {
         display: none;
-        font-size: 13px;
-      }
-      .action-bar-text .label {
-        padding-bottom: 2px;
-        padding-top: 2px;
-        font-size: 13px;
       }
     }
 
-    @media (max-width: 984px) {
+    @media (max-width: 991px) {
       .action-bar-text .label {
         display: none;
+      }
+      .action-bar-text .label-sm {
+        font-size: 13px;
+        line-height: normal;
         padding-top: 2px;
-        padding-bottom: 0px;
       }
     }
 
