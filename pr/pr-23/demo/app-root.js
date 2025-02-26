@@ -1193,6 +1193,7 @@ xmlns="http://www.w3.org/2000/svg"
     `}};D.styles=g`
     :host {
       display: block;
+      font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
     }
 
     ia-icon-label {
@@ -1230,10 +1231,8 @@ xmlns="http://www.w3.org/2000/svg"
       --dropdownMainButtonBorderRadius: 3px;
     }
 
-    /* line-height extracted from PB */
     .action-bar-text {
       font-size: 14px;
-      line-height: 1.42857143;
       font-weight: normal;
       -webkit-user-select: none;
       user-select: none;
@@ -1244,8 +1243,11 @@ xmlns="http://www.w3.org/2000/svg"
 
     /* inside button.click-main, classname from details.inc buttons */
     @media (min-width: 992px) {
+      .icon-img {
+        padding-bottom: 2px;
+      }
       .action-bar-text .label {
-        padding-top: 3px;
+        padding-top: 4px;
       }
       .action-bar-text .label-sm {
         display: none;
@@ -1253,13 +1255,15 @@ xmlns="http://www.w3.org/2000/svg"
     }
 
     @media (max-width: 991px) {
+      .icon-img {
+        padding-bottom: 1.5px;
+      }
       .action-bar-text .label {
         display: none;
       }
       .action-bar-text .label-sm {
         font-size: 13px;
-        line-height: normal;
-        padding-top: 2px;
+        padding-top: 0.5px;
       }
     }
 
