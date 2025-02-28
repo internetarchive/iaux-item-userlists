@@ -1192,8 +1192,7 @@ xmlns="http://www.w3.org/2000/svg"
       </div>
     `}};D.styles=g`
     :host {
-      display: block;
-      font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+      display: flex;
     }
 
     ia-icon-label {
@@ -1204,6 +1203,7 @@ xmlns="http://www.w3.org/2000/svg"
     .icon-img {
       height: 16px;
       width: 16px;
+      padding-bottom: 2px;
     }
 
     div.list-title {
@@ -1239,31 +1239,29 @@ xmlns="http://www.w3.org/2000/svg"
       --iconLabelFlexDirection: column;
       --iconLabelGutterWidth: 0;
       --iconWidth: 16px;
+      font-family: inherit;
     }
 
     /* inside button.click-main, classname from details.inc buttons */
     @media (min-width: 992px) {
-      .icon-img {
-        padding-bottom: 2px;
-      }
       .action-bar-text .label {
-        padding-top: 4px;
+        line-height: 1.42857143;
       }
       .action-bar-text .label-sm {
         display: none;
       }
     }
 
+    /* List button */
     @media (max-width: 991px) {
       .icon-img {
-        padding-bottom: 1.5px;
+        padding-bottom: 1px;
       }
       .action-bar-text .label {
         display: none;
       }
       .action-bar-text .label-sm {
         font-size: 13px;
-        padding-top: 0.5px;
       }
     }
 
