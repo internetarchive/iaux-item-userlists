@@ -1,26 +1,64 @@
-![Build Status](https://github.com/internetarchive/iaux-typescript-wc-template/actions/workflows/ci.yml/badge.svg) [![codecov](https://codecov.io/gh/internetarchive/iaux-typescript-wc-template/branch/main/graph/badge.svg?token=ZOYRJ2BV9W)](https://codecov.io/gh/internetarchive/iaux-typescript-wc-template)
+![Build Status](https://github.com/internetarchive/iaux-item-userlists/actions/workflows/ci.yml/badge.svg) [![codecov](https://codecov.io/gh/internetarchive/iaux-item-userlists/branch/main/graph/badge.svg?token=ZOYRJ2BV9W)](https://codecov.io/gh/internetarchive/iaux-item-userlists)
 
-# Internet Archive Typescript WebComponent Template
+# Internet Archive Item User Lists WebComponent
 
-This is a base template for creating Typescript WebComponents. It is based off of the [Open WebComponents generator](https://open-wc.org/docs/development/generator/) with some IA-specific customizations and some development niceities.
+```markdown
+This WebComponent, built using the [IA Typescript WebComponent Template](https://github.com/internetarchive/iaux-typescript-wc-template), allows users to add or remove items from their user lists on the Internet Archive. It extends the [Open WebComponents generator](https://open-wc.org/docs/development/generator/) with Internet Archive-specific features and developer tools.
+```
+## Installation
 
-## Usage
-
-1. Click the "Use this Template" button in GitHub to create a new repository based on this one.
-2. Clone your new repo and update the things below:
-
-### Things to update in your copy
-1. Remove this section
-2. Search for the strings `your-webcomponent` and `YourWebComponent` and those are most of the spots that need to be updated.
-3. `README.md` (this file). Update the readme in general, but also the badge URLs
-4. `package.json` Update the name and description
-5. Rename the `your-webcomponent.ts` and its associated `.test` file
+```bash
+npm install @internetarchive/iaux-item-userlists
+```
 
 ## Local Demo with `web-dev-server`
 ```bash
 yarn start
 ```
 To run a local development server that serves the basic demo located in `demo/index.html`
+
+## Usage `<ia-account-settings>` Component
+
+### Properties
+
+- `itemId`: The identifier of the item.
+- `lists`: An array of user lists.
+- `userListsService`: The service interface for user lists.
+
+### Method
+
+- `createList()`: Opens the interface to create a new list.
+- `addMember(listId: string)`: Adds the item to the specified list.
+- `removeMember(listId: string, memberId: string)`: Removes the item from the specified list.
+
+### Events
+
+- `closeDropdown`: Dispatched when the dropdown is closed.
+- `selectDropdown`: Dispatched when an option is selected.
+- `updateDropdown`: Dispatched when the dropdown needs to be updated.
+- `listCreated`: Dispatched when a new list is created.
+- `addMember`: Dispatched when an item is added to a list.
+- `removeMember`: Dispatched when an item is removed from a list.
+
+## Example usages
+
+```html
+  <ia-item-user-lists
+    item=${this.itemId}
+    .baseHost=${this.baseHost}
+    @memberAdded=${(e: CustomEvent) =>
+      console.log('memberAdded', e.detail)}
+    @memberRemoved=${(e: CustomEvent) =>
+      console.log('memberRemoved', e.detail)}
+    @listCreateOpen=${(e: CustomEvent) =>
+      console.log('listCreateOpen', e.detail)}
+    @userItemListDataReceived=${(e: CustomEvent) =>
+      console.log('userItemListDataReceived', e.detail)}
+    @closeDropdown=${() => console.log('closeDropdown')}
+    @selectDropdown=${(e: CustomEvent) =>
+      console.log('selectDropdown', e.detail)}
+  ></ia-item-user-lists>
+```
 
 ## Testing with Web Test Runner
 To run the suite of Web Test Runner tests, run
