@@ -2,9 +2,9 @@
 
 # Internet Archive Item User Lists WebComponent
 
-```markdown
+
 This WebComponent, built using the [IA Typescript WebComponent Template](https://github.com/internetarchive/iaux-typescript-wc-template), allows users to add or remove items from their user lists on the Internet Archive. It extends the [Open WebComponents generator](https://open-wc.org/docs/development/generator/) with Internet Archive-specific features and developer tools.
-```
+
 ## Installation
 
 ```bash
