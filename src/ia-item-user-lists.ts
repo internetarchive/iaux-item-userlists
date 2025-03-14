@@ -191,8 +191,10 @@ export class IaItemUserLists extends LitElement {
   renderIcon(icon: TemplateResult): TemplateResult {
     return html`
       <div slot="icon" class="icon-img">${icon}</div>
-      <div class="label">Add to list</div>
-      <div class="label-sm">Lists</div>
+      <div class="label">
+        <div class="def">Add to list</div>
+        <div class="sm">Lists</div>
+      </div>
     `;
   }
 
@@ -311,7 +313,7 @@ export class IaItemUserLists extends LitElement {
     .icon-img {
       height: 16px;
       width: 16px;
-      padding-bottom: 3px;
+      padding-bottom: 2px;
     }
 
     div.list-title {
@@ -340,30 +342,41 @@ export class IaItemUserLists extends LitElement {
     }
 
     .action-bar-text {
+      font-size: 14px;
       font-weight: normal;
       -webkit-user-select: none;
       user-select: none;
       --iconLabelFlexDirection: column;
       --iconLabelGutterWidth: 0;
       --iconWidth: 16px;
+      font-family: inherit;
+    }
+
+    .action-bar-text .label {
+      display: flex;
+      align-items: center;
     }
 
     /* inside button.click-main, classname from details.inc buttons */
-    @media (min-width: 985px) {
-      .action-bar-text .label-sm {
-        display: none;
-      }
+    @media (min-width: 992px) {
       .action-bar-text .label {
-        padding-bottom: 2px;
-        padding-top: 2px;
+        height: 20px;
+      }
+      .action-bar-text .label .sm {
+        display: none;
       }
     }
 
-    @media (max-width: 984px) {
+    /* List button */
+    @media (max-width: 991px) {
       .action-bar-text .label {
+        height: 15px;
+      }
+      .action-bar-text .label .def {
         display: none;
-        padding-top: 2px;
-        padding-bottom: 0px;
+      }
+      .action-bar-text .label .sm {
+        font-size: 13px;
       }
     }
 
