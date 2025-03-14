@@ -1149,8 +1149,10 @@ xmlns="http://www.w3.org/2000/svg"
   alt="Loading..."
 />`;let D=class extends R{constructor(){super(...arguments),this.baseHost="archive.org",this.item="",this.selectedCount=0,this.userListData=[],this.dataAction="initial",this.userListsService=ti.create({serviceUrl:this.baseHost}),this.listID="",this.closeListener=()=>{this.dropdown.open=!1},this.selectListener=()=>{this.dropdown.open=!1,this.dataActionTask.run(["initial"])},this.updateListener=()=>{this.dataActionTask.run(["load"])},this.dataActionTask=new qi(this,{task:async([e])=>{if(!this.item||!this.userListsService)return vt;switch(e){case"load":return this.updateSelectedCount();default:return vt}},args:()=>[this.dataAction],autoRun:!1})}async dropdownClicked(e){e.preventDefault(),this.dropdown.open?this.dropdown.open=!1:(await this.dataActionTask.run(["load"]),this.dropdown.open=!0)}async firstUpdated(){var e;await new Promise(t=>setTimeout(t,0)),this.addEventListener("closeDropdown",this.closeListener),this.addEventListener("selectDropdown",this.selectListener),this.addEventListener("updateDropdown",this.updateListener),(e=this.dataActionTask.run(["load"]))===null||e===void 0||e.then(()=>{this.dispatchEvent(new CustomEvent("userItemListDataReceived",{detail:{total_lists:this.userListData.length}}))})}updated(e){e.has("baseHost")&&this.baseHost&&e.get("baseHost")&&this.reloadService()}reloadService(){this.userListsService=ti.create({serviceUrl:this.baseHost}),this.dataActionTask.run(["load"])}async updateItemUserList(){var e;const t=await this.userListsService.fetchOwnListsContainingItem(this.item);if(!t.success)throw new Error((e=t.error)===null||e===void 0?void 0:e.message);return this.userListData=t.success,this.userListData}async updateSelectedCount(){const e=await this.updateItemUserList();return this.selectedCount=e.filter(t=>t.item_is_member).length,this.selectedCount}renderIcon(e){return w`
       <div slot="icon" class="icon-img">${e}</div>
-      <div class="label">Add to list</div>
-      <div class="label-sm">Lists</div>
+      <div class="label">
+        <div class="def">Add to list</div>
+        <div class="sm">Lists</div>
+      </div>
     `}renderError(){return w`
       <div class="label">User Lists<br />Load Error</div>
       <div class="label-sm">Load<br />Error</div>
@@ -1192,7 +1194,7 @@ xmlns="http://www.w3.org/2000/svg"
       </div>
     `}};D.styles=g`
     :host {
-      display: flex;
+      display: block;
     }
 
     ia-icon-label {
@@ -1242,25 +1244,30 @@ xmlns="http://www.w3.org/2000/svg"
       font-family: inherit;
     }
 
+    .action-bar-text .label {
+      display: flex;
+      align-items: center;
+    }
+
     /* inside button.click-main, classname from details.inc buttons */
     @media (min-width: 992px) {
       .action-bar-text .label {
-        line-height: 1.42857143;
+        height: 20px;
       }
-      .action-bar-text .label-sm {
+      .action-bar-text .label .sm {
         display: none;
       }
     }
 
     /* List button */
     @media (max-width: 991px) {
-      .icon-img {
-        padding-bottom: 1px;
-      }
       .action-bar-text .label {
+        height: 15px;
+      }
+      .action-bar-text .label .def {
         display: none;
       }
-      .action-bar-text .label-sm {
+      .action-bar-text .label .sm {
         font-size: 13px;
       }
     }
