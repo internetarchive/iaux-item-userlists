@@ -232,10 +232,10 @@
   dependencies:
     lit "^2.8.0 || ^3.3.2"
 
-"@internetarchive/ia-dropdown@^2.1.0":
-  version "2.1.0"
-  resolved "https://registry.yarnpkg.com/@internetarchive/ia-dropdown/-/ia-dropdown-2.1.0.tgz#86b357ae7e4026da1e9d36d87e322f6d56d53db6"
-  integrity sha512-FL8g78+42SiXEP21z6TjFHYGNtnG/sI6NUlPfft9GTlzOhz4QA9THRooSqa6fXeuatMPwqH4fTGhz6inwvKQ6Q==
+"@internetarchive/ia-dropdown@2.2.0-alpha-webdev8447.0":
+  version "2.2.0-alpha-webdev8447.0"
+  resolved "https://registry.yarnpkg.com/@internetarchive/ia-dropdown/-/ia-dropdown-2.2.0-alpha-webdev8447.0.tgz#55905ad6b4e6f18688e42c2f39d8367ec5184ea4"
+  integrity sha512-55GKBRmNxHsnDEfAPMe4gikakG+F3XR17O2FXf2NiKeWyhGTe0U+oKsWD7rb4s8fQB5DwBEiZ4cg3LxmaLHk7w==
   dependencies:
     lit "^2.8.0"
 
