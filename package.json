@@ -27,7 +27,7 @@
   },
   "types": "dist/index.d.ts",
   "dependencies": {
-    "@internetarchive/ia-dropdown": "^2.1.0",
+    "@internetarchive/ia-dropdown": "^2.2.0",
     "@internetarchive/ia-userlist-settings": "^1.1.2",
     "@internetarchive/modal-manager": "^2.0.0",
     "@internetarchive/search-service": "^2.7.1",
